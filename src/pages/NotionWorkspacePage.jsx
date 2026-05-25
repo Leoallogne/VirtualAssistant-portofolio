@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { LanguageContext } from '../context/LanguageContext';
 
 const NotionWorkspacePage = ({ setActivePage }) => {
+  const { language, t } = useContext(LanguageContext);
+
   const [openSop, setOpenSop] = useState(null);
   const [layoutView, setLayoutView] = useState('doc'); // 'doc' or 'kanban'
   const [webhookLog, setWebhookLog] = useState([]);
   const [flashingRowId, setFlashingRowId] = useState(null);
 
-  // Mock tasks list for the checklists and Kanban board
+  // Mock tasks list for the checklists and Kanban board with bilingual text
   const [tasks, setTasks] = useState([
-    { id: 1, text: 'Setup brand Gmail filters and label structures', status: 'COMPLETED' },
-    { id: 2, text: 'Integrate Calendly cross-timezone booking slots', status: 'COMPLETED' },
-    { id: 3, text: 'Design 30 culinary Instagram visual Canva frames', status: 'IN_PROGRESS' },
-    { id: 4, text: 'Draft daily customer service ticketing SOP documents', status: 'IN_PROGRESS' },
-    { id: 5, text: 'Generate Loom onboarding tutorials for new team hires', status: 'TODO' }
+    { id: 1, text_id: 'Siapkan filter Gmail dan struktur label merek', text_en: 'Setup brand Gmail filters and label structures', status: 'COMPLETED' },
+    { id: 2, text_id: 'Integrasikan slot jadwal Calendly lintas zona waktu', text_en: 'Integrate Calendly cross-timezone booking slots', status: 'COMPLETED' },
+    { id: 3, text_id: 'Desain 30 bingkai visual Canva kustom Instagram', text_en: 'Design 30 culinary Instagram visual Canva frames', status: 'IN_PROGRESS' },
+    { id: 4, text_id: 'Draf dokumen SOP layanan pelanggan harian', text_en: 'Draft daily customer service ticketing SOP documents', status: 'IN_PROGRESS' },
+    { id: 5, text_id: 'Buat video tutorial Loom untuk anggota tim baru', text_en: 'Generate Loom onboarding tutorials for new team hires', status: 'TODO' }
   ]);
 
-  // Google Sheets CRM Milestone Tracker
+  // Google Sheets CRM Milestone Tracker with bilingual support
   const [sheetData, setSheetData] = useState([
-    { id: 101, client: 'Warung Nusantara', niche: 'F&B Restaurant', stage: 'Day 6-7: Launch', progress: '2/5', payment: 'PAID', assignee: 'Leo Syafiq (VA)' },
-    { id: 102, client: 'Java Coffee Co.', niche: 'Coffee Roastery', stage: 'Day 3-5: Integration', progress: '4/5', payment: 'INVOICED', assignee: 'Leo Syafiq (VA)' },
-    { id: 103, client: 'Karawang Catering', niche: 'Katering Event', stage: 'Day 1-2: Setup', progress: '1/5', payment: 'INVOICED', assignee: 'Leo Syafiq (VA)' }
+    { id: 101, client: 'Warung Nusantara', niche_id: 'Restoran Kuliner', niche_en: 'F&B Restaurant', stage_id: 'Hari 6-7: Peluncuran', stage_en: 'Day 6-7: Launch', progress: '2/5', payment: 'PAID', assignee: 'Leo Syafiq (VA)' },
+    { id: 102, client: 'Java Coffee Co.', niche_id: 'Pemanggangan Kopi', niche_en: 'Coffee Roastery', stage_id: 'Hari 3-5: Integrasi', stage_en: 'Day 3-5: Integration', progress: '4/5', payment: 'INVOICED', assignee: 'Leo Syafiq (VA)' },
+    { id: 103, client: 'Karawang Catering', niche_id: 'Katering Acara', niche_en: 'Katering Event', stage_id: 'Hari 1-2: Persiapan', stage_en: 'Day 1-2: Setup', progress: '1/5', payment: 'INVOICED', assignee: 'Leo Syafiq (VA)' }
   ]);
+
+  // Sync selected email object with changes in array
+  useEffect(() => {
+    // Generate initial webhook console logs based on locale
+    triggerWebhookLog(language === 'id' 
+      ? 'Notion Webhook: Sistem aktif terhubung dengan Slack.' 
+      : 'Notion Webhook: System actively connected with Slack.'
+    );
+  }, [language]);
 
   const triggerWebhookLog = (message) => {
     const timestamp = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -33,10 +45,16 @@ const NotionWorkspacePage = ({ setActivePage }) => {
       if (t.id === id) {
         const isNowCompleted = t.status !== 'COMPLETED';
         const nextStatus = isNowCompleted ? 'COMPLETED' : 'TODO';
+        const text = language === 'id' ? t.text_id : t.text_en;
         
         // Trigger automated webhooks alert simulation
-        triggerWebhookLog(`Notion Webhook: Task "${t.text.substring(0, 20)}..." shifted to ${nextStatus}.`);
-        triggerWebhookLog(`Slack Webhook: Notification dispatched to #operations channel.`);
+        if (language === 'id') {
+          triggerWebhookLog(`Notion Webhook: Tugas "${text.substring(0, 20)}..." digeser ke ${nextStatus}.`);
+          triggerWebhookLog(`Slack Webhook: Notifikasi dikirim ke saluran #operations.`);
+        } else {
+          triggerWebhookLog(`Notion Webhook: Task "${text.substring(0, 20)}..." shifted to ${nextStatus}.`);
+          triggerWebhookLog(`Slack Webhook: Notification dispatched to #operations channel.`);
+        }
         
         // Auto-update spreadsheet row for visual synchronization
         setSheetData(s => s.map(row => {
@@ -47,7 +65,12 @@ const NotionWorkspacePage = ({ setActivePage }) => {
             setFlashingRowId(101);
             setTimeout(() => setFlashingRowId(null), 1500);
 
-            return { ...row, progress: `${completedCount}/5`, stage: completedCount === 5 ? 'Active Operations' : 'Day 6-7: Launch' };
+            return { 
+              ...row, 
+              progress: `${completedCount}/5`, 
+              stage_id: completedCount === 5 ? 'Operasional Aktif' : 'Hari 6-7: Peluncuran',
+              stage_en: completedCount === 5 ? 'Active Operations' : 'Day 6-7: Launch'
+            };
           }
           return row;
         }));
@@ -65,10 +88,18 @@ const NotionWorkspacePage = ({ setActivePage }) => {
       if (t.id === id) {
         const nextIdx = (columns.indexOf(t.status) + 1) % columns.length;
         const nextStatus = columns[nextIdx];
+        const text = language === 'id' ? t.text_id : t.text_en;
 
-        triggerWebhookLog(`Kanban Update: "${t.text.substring(0, 20)}..." moved to ${nextStatus}.`);
-        if (nextStatus === 'COMPLETED') {
-          triggerWebhookLog(`Slack Webhook: Alert dispatched to founder.`);
+        if (language === 'id') {
+          triggerWebhookLog(`Kanban Update: "${text.substring(0, 20)}..." digeser ke ${nextStatus}.`);
+          if (nextStatus === 'COMPLETED') {
+            triggerWebhookLog(`Slack Webhook: Peringatan dikirim ke pendiri.`);
+          }
+        } else {
+          triggerWebhookLog(`Kanban Update: "${text.substring(0, 20)}..." moved to ${nextStatus}.`);
+          if (nextStatus === 'COMPLETED') {
+            triggerWebhookLog(`Slack Webhook: Alert dispatched to founder.`);
+          }
         }
 
         // Auto-update spreadsheet progress
@@ -92,20 +123,35 @@ const NotionWorkspacePage = ({ setActivePage }) => {
     setSheetData(prev => prev.map(row => {
       if (row.id === rowId) {
         const nextIndex = (payments.indexOf(row.payment) + 1) % payments.length;
-        
-        triggerWebhookLog(`CRM Update: Invoice status for ${row.client} changed to ${payments[nextIndex]}.`);
+        const nextPayment = payments[nextIndex];
+
+        if (language === 'id') {
+          triggerWebhookLog(`Pembaruan CRM: Status faktur untuk ${row.client} berubah menjadi ${nextPayment}.`);
+        } else {
+          triggerWebhookLog(`CRM Update: Invoice status for ${row.client} changed to ${nextPayment}.`);
+        }
 
         setFlashingRowId(rowId);
         setTimeout(() => setFlashingRowId(null), 1500);
 
-        return { ...row, payment: payments[nextIndex] };
+        return { ...row, payment: nextPayment };
       }
       return row;
     }));
   };
 
   const handleSheetCellEdit = (rowId, field, newText) => {
-    setSheetData(prev => prev.map(row => row.id === rowId ? { ...row, [field]: newText } : row));
+    setSheetData(prev => prev.map(row => {
+      if (row.id === rowId) {
+        if (field === 'client') return { ...row, client: newText };
+        if (field === 'niche') {
+          return language === 'id' 
+            ? { ...row, niche_id: newText }
+            : { ...row, niche_en: newText };
+        }
+      }
+      return row;
+    }));
   };
 
   const completedCount = tasks.filter(t => t.status === 'COMPLETED').length;
@@ -114,35 +160,59 @@ const NotionWorkspacePage = ({ setActivePage }) => {
   const sops = [
     {
       id: 'CS-01',
-      title: 'CS-01: Customer Inbox & Response SOP',
-      desc: 'Protokol penanganan surat masuk pelanggan toko katering.',
-      steps: [
+      title_id: 'CS-01: Prosedur Kotak Masuk & Respon',
+      title_en: 'CS-01: Customer Inbox & Response SOP',
+      desc_id: 'Protokol penanganan surat masuk pelanggan toko katering.',
+      desc_en: 'Inbound message handling protocols for catering store customers.',
+      steps_id: [
         'Periksa inbox Gmail utama setiap pukul 09:00 WIB, 13:00 WIB, dan 17:00 WIB.',
         'Saring pesan masuk berdasarkan 3 label otomatis: Urgent (Komplain), Supplier, dan General.',
         'Gunakan Template Balasan Gmail kustom untuk membalas pertanyaan katering umum kurang dari 3 jam.',
         'Pindahkan email yang telah dibalas ke dalam folder Arsip/Resolved untuk menjaga Inbox Zero.'
+      ],
+      steps_en: [
+        'Check primary Gmail inbox daily at 09:00 WIB, 13:00 WIB, and 17:00 WIB.',
+        'Filter inbound emails using 3 automated label directories: Urgent, Supplier, and General.',
+        'Apply custom Gmail Canned Templates to reply to generic inquiries under 3 hours.',
+        'Archive triaged/replied emails to maintain absolute Inbox Zero.'
       ]
     },
     {
       id: 'CAL-02',
-      title: 'CAL-02: Executive Timezone Scheduling SOP',
-      desc: 'Protokol koordinasi agenda founder lintas zona waktu.',
-      steps: [
+      title_id: 'CAL-02: Penjadwalan Kalender Eksekutif Lintas Zona Waktu',
+      title_en: 'CAL-02: Executive Timezone Scheduling SOP',
+      desc_id: 'Protokol koordinasi agenda founder lintas zona waktu.',
+      desc_en: 'Cross-timezone schedule coordination protocols for the founder.',
+      steps_id: [
         'Pastikan Google Calendar founder terintegrasi dengan Calendly dengan reminder 24 jam.',
         'Ketika klien baru memesan jadwal, periksa bentrok rapat penting dengan slide warning.',
         'Kirimkan reminder via Slack kepada founder 2 jam sebelum pertemuan dimulai.',
         'Lakukan audit jadwal setiap Sabtu sore untuk menghindari tabrakan agenda.'
+      ],
+      steps_en: [
+        'Integrate Google Calendar with Calendly with an automated 24-hr reminder threshold.',
+        'When booking slots are requested, review double-booking warning markers carefully.',
+        'Dispatch active Slack reminders to the founder 2 hours before meetings begin.',
+        'Run calendar audits every Saturday evening to ensure zero overlapping roster states.'
       ]
     },
     {
       id: 'MKT-03',
-      title: 'MKT-03: MSME Social Media Marketing SOP',
-      desc: 'Protokol penyusunan konten dan jadwal posting Instagram.',
-      steps: [
+      title_id: 'MKT-03: Pemasaran Media Sosial UMKM',
+      title_en: 'MKT-03: MSME Social Media Marketing SOP',
+      desc_id: 'Protokol penyusunan konten dan jadwal posting Instagram.',
+      desc_en: 'Content development and Instagram posting scheduler SOPs.',
+      steps_id: [
         'Desain visual menggunakan template Canva kustom di bawah brand style kit.',
         'Tulis caption menggunakan formula AIDA (Attention, Interest, Desire, Action).',
         'Sertakan 15-20 hashtag tertarget berdasarkan tren kuliner mingguan.',
         'Atur jadwal rilis postingan via Buffer setiap hari Selasa & Jumat.'
+      ],
+      steps_en: [
+        'Develop visual assets using custom Canva grids governed by the brand kit.',
+        'Formulate persuasive caption copy applying the AIDA framework.',
+        'Incorporate 15-20 target hashtags matching weekly culinary trends.',
+        'Schedule release posts via Buffer weekly on Tuesdays and Fridays.'
       ]
     }
   ];
@@ -163,26 +233,26 @@ const NotionWorkspacePage = ({ setActivePage }) => {
             className="btn btn-secondary"
             style={{ padding: '0.6rem 1.25rem', fontSize: '0.9rem', borderRadius: '10px' }}
           >
-            ← Back to Portfolio
+            {t.expBack}
           </button>
           <div>
-            <span className="section-tag" style={{ marginBottom: 0 }}>Interactive Sandbox</span>
+            <span className="section-tag" style={{ marginBottom: 0 }}>{t.expTag}</span>
           </div>
         </div>
 
         {/* Title */}
         <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>
-            Notion Workspace & <span className="text-gradient">CRM Excel</span> Simulator
+            {language === 'id' ? <>Workspace Notion & <span className="text-gradient">CRM Excel</span></> : <>Notion Workspace & <span className="text-gradient">CRM Excel</span> Simulator</>}
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto' }}>
-            Enforce operational workflows. Switch checklists to Kanban columns, trigger simulated Slack webhooks, and sync milestone CRM databases with the master Excel sheet below.
+            {t.notionSub}
           </p>
         </div>
 
         {/* 📊 Layout Views Switcher Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-          <span style={{ fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 800 }}>📌 Notion Operations Board</span>
+          <span style={{ fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 800 }}>{t.notionBoardTitle}</span>
           
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
@@ -198,7 +268,7 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                 color: layoutView === 'doc' ? 'var(--accent-secondary)' : 'var(--text-muted)'
               }}
             >
-              Doc Outline & Checklist
+              {t.notionTabDoc}
             </button>
             <button
               onClick={() => setLayoutView('kanban')}
@@ -213,7 +283,7 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                 color: layoutView === 'kanban' ? 'var(--accent-secondary)' : 'var(--text-muted)'
               }}
             >
-              Agile Kanban Board
+              {t.notionTabKanban}
             </button>
           </div>
         </div>
@@ -230,14 +300,18 @@ const NotionWorkspacePage = ({ setActivePage }) => {
           {layoutView === 'doc' ? (
             /* Standard SOP accordion outline */
             <div className="glass-panel" style={{ padding: '2rem', border: '1px solid var(--glass-border)', background: 'var(--bg-secondary)' }}>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>🚀 Business SOP Library</h3>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{t.notionSopLibrary}</h3>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-                Expanding active SOP models detailing operational rules for businesses. Click row header to toggle details:
+                {t.notionSopDesc}
               </p>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {sops.map((sop) => {
                   const isOpen = openSop === sop.id;
+                  const title = language === 'id' ? sop.title_id : sop.title_en;
+                  const desc = language === 'id' ? sop.desc_id : sop.desc_en;
+                  const steps = language === 'id' ? sop.steps_id : sop.steps_en;
+
                   return (
                     <div key={sop.id} style={{ border: '1px solid var(--glass-border)', borderRadius: '10px', overflow: 'hidden' }}>
                       <div
@@ -253,14 +327,14 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                           fontSize: '0.85rem'
                         }}
                       >
-                        <span>{sop.title}</span>
+                        <span>{title}</span>
                         <span>{isOpen ? '▲' : '▼'}</span>
                       </div>
                       {isOpen && (
-                        <div style={{ padding: '1.15rem', background: 'rgba(0,0,0,0.1)', borderTop: '1px solid var(--glass-border)', animation: 'fade-in 0.2s ease' }}>
-                          <p style={{ fontSize: '0.75rem', fontStyle: 'italic', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Objective: {sop.desc}</p>
+                        <div style={{ padding: '1.15rem', background: 'rgba(0,0,0,0.03)', borderTop: '1px solid var(--glass-border)', animation: 'fade-in 0.2s ease' }}>
+                          <p style={{ fontSize: '0.75rem', fontStyle: 'italic', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>{language === 'id' ? 'Tujuan' : 'Objective'}: {desc}</p>
                           <ol style={{ paddingLeft: '1.15rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                            {sop.steps.map((st, idx) => <li key={idx} style={{ lineHeight: 1.4 }}>{st}</li>)}
+                            {steps.map((st, idx) => <li key={idx} style={{ lineHeight: 1.4 }}>{st}</li>)}
                           </ol>
                         </div>
                       )}
@@ -274,47 +348,56 @@ const NotionWorkspacePage = ({ setActivePage }) => {
             <div className="glass-panel" style={{ padding: '2rem', border: '1px solid var(--glass-border)', background: 'var(--bg-secondary)', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem', minHeight: '340px' }}>
               {/* TODO Column */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', borderBottom: '1px solid var(--glass-border)', pb: '0.25rem', display: 'block' }}>📋 TO DO</span>
-                {tasks.filter(t => t.status === 'TODO').map(task => (
-                  <div
-                    key={task.id}
-                    onClick={() => advanceKanbanTask(task.id)}
-                    style={{ padding: '0.65rem', background: 'var(--bg-primary)', border: '1px solid var(--glass-border)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-main)', cursor: 'pointer', transition: 'all 0.2s' }}
-                    title="Click to shift progress"
-                  >
-                    {task.text}
-                  </div>
-                ))}
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.25rem', display: 'block' }}>📋 TO DO</span>
+                {tasks.filter(t => t.status === 'TODO').map(task => {
+                  const text = language === 'id' ? task.text_id : task.text_en;
+                  return (
+                    <div
+                      key={task.id}
+                      onClick={() => advanceKanbanTask(task.id)}
+                      style={{ padding: '0.65rem', background: 'var(--bg-primary)', border: '1px solid var(--glass-border)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-main)', cursor: 'pointer', transition: 'all 0.2s' }}
+                      title="Click to shift progress"
+                    >
+                      {text}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* IN PROGRESS Column */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent)', borderBottom: '1px solid var(--glass-border)', pb: '0.25rem', display: 'block' }}>⚡ PROGRESS</span>
-                {tasks.filter(t => t.status === 'IN_PROGRESS').map(task => (
-                  <div
-                    key={task.id}
-                    onClick={() => advanceKanbanTask(task.id)}
-                    style={{ padding: '0.65rem', background: 'var(--bg-primary)', border: '1px solid var(--accent)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-main)', cursor: 'pointer', transition: 'all 0.2s' }}
-                    title="Click to shift progress"
-                  >
-                    {task.text}
-                  </div>
-                ))}
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.25rem', display: 'block' }}>⚡ PROGRESS</span>
+                {tasks.filter(t => t.status === 'IN_PROGRESS').map(task => {
+                  const text = language === 'id' ? task.text_id : task.text_en;
+                  return (
+                    <div
+                      key={task.id}
+                      onClick={() => advanceKanbanTask(task.id)}
+                      style={{ padding: '0.65rem', background: 'var(--bg-primary)', border: '1px solid var(--accent)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-main)', cursor: 'pointer', transition: 'all 0.2s' }}
+                      title="Click to shift progress"
+                    >
+                      {text}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* COMPLETED Column */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-secondary)', borderBottom: '1px solid var(--glass-border)', pb: '0.25rem', display: 'block' }}>✅ RESOLVED</span>
-                {tasks.filter(t => t.status === 'COMPLETED').map(task => (
-                  <div
-                    key={task.id}
-                    onClick={() => advanceKanbanTask(task.id)}
-                    style={{ padding: '0.65rem', background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'line-through', cursor: 'pointer' }}
-                    title="Click to loop back"
-                  >
-                    {task.text}
-                  </div>
-                ))}
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--accent-secondary)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.25rem', display: 'block' }}>✅ RESOLVED</span>
+                {tasks.filter(t => t.status === 'COMPLETED').map(task => {
+                  const text = language === 'id' ? task.text_id : task.text_en;
+                  return (
+                    <div
+                      key={task.id}
+                      onClick={() => advanceKanbanTask(task.id)}
+                      style={{ padding: '0.65rem', background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'line-through', cursor: 'pointer' }}
+                      title="Click to loop back"
+                    >
+                      {text}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -322,13 +405,14 @@ const NotionWorkspacePage = ({ setActivePage }) => {
           {/* Right panel: Checklist / Webhook Console Log */}
           <div className="glass-panel" style={{ padding: '2rem', border: '1px solid var(--glass-border)', background: 'var(--bg-secondary)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>☑ Operations Trello Checklist</h3>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Toggle checklist checkboxes to simulate real-time operations:</p>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>{t.notionChecklistTitle}</h3>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t.notionChecklistDesc}</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '180px', overflowY: 'auto' }}>
               {tasks.map(task => {
                 const isCompleted = task.status === 'COMPLETED';
+                const text = language === 'id' ? task.text_id : task.text_en;
                 return (
                   <div
                     key={task.id}
@@ -365,7 +449,7 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                       fontSize: '0.85rem',
                       color: isCompleted ? 'var(--text-muted)' : 'var(--text-main)',
                       textDecoration: isCompleted ? 'line-through' : 'none'
-                    }}>{task.text}</span>
+                    }}>{text}</span>
                   </div>
                 );
               })}
@@ -374,7 +458,7 @@ const NotionWorkspacePage = ({ setActivePage }) => {
             {/* Completion rate bar */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                <span>Milestone Onboarding progress</span>
+                <span>{t.notionProgressTitle}</span>
                 <span style={{ color: 'var(--accent-secondary)' }}>{progressPercent}%</span>
               </div>
               <div style={{ width: '100%', height: '5px', background: 'var(--bg-primary)', borderRadius: '10px', overflow: 'hidden' }}>
@@ -384,7 +468,7 @@ const NotionWorkspacePage = ({ setActivePage }) => {
 
             {/* 🤖 Automated Webhook Console Logger */}
             <div style={{
-              background: '#0e1626',
+              background: 'var(--bg-tertiary)',
               border: '1px solid var(--glass-border)',
               borderRadius: '8px',
               padding: '0.75rem',
@@ -395,12 +479,12 @@ const NotionWorkspacePage = ({ setActivePage }) => {
               gap: '0.25rem',
               minHeight: '85px'
             }}>
-              <span style={{ color: '#a0aec0', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', mb: '0.15rem' }}>🔄 Simulated Webhooks Log Console</span>
+              <span style={{ color: 'var(--text-main)', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '0.15rem' }}>{t.notionConsoleTitle}</span>
               {webhookLog.length === 0 ? (
-                <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>[Idle] Toggle checklists to dispatch simulated REST API logs.</span>
+                <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>{t.notionConsoleIdle}</span>
               ) : (
                 webhookLog.map((log, idx) => (
-                  <div key={idx} style={{ color: log.includes('Slack') ? '#38ef7d' : '#e2e8f0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <div key={idx} style={{ color: log.includes('Slack') ? '#38ef7d' : 'var(--text-main)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {log}
                   </div>
                 ))
@@ -414,16 +498,16 @@ const NotionWorkspacePage = ({ setActivePage }) => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                <span>📊 Operations CRM & SOP Milestones Sheets</span>
-                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>Live Milestones Ledger</span>
+                <span>{t.notionSheetTitle}</span>
+                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>{t.expExcelSync}</span>
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-                Master Client CRM Sheet detailing operational stages. Toggling tasks in the Notion Operations tracker dynamically updates Warung Nusantara progress. Double-click Payment Status to toggle.
+                {t.notionSheetDesc}
               </p>
             </div>
             
             <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-              =COUNTIF(E2:E4, "PAID")
+              {t.notionFormula}
             </div>
           </div>
 
@@ -432,22 +516,22 @@ const NotionWorkspacePage = ({ setActivePage }) => {
             border: '1px solid var(--glass-border)',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: 'var(--premium-shadow)'
+            boxShadow: 'var(--shadow-md)'
           }}>
-            {/* Excel top menu bar */}
+            {/* Excel top menu bar - Theme Aware */}
             <div style={{
-              background: '#1b2a47',
+              background: 'var(--bg-tertiary)',
               borderBottom: '1px solid var(--glass-border)',
               padding: '0.5rem 1rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               fontSize: '0.75rem',
-              color: '#a0aec0',
+              color: 'var(--text-muted)',
               fontFamily: 'monospace'
             }}>
-              <span style={{ color: '#ebf8ff', fontWeight: 800 }}>📂 CORPORATE_OPERATIONS_CRM_LEDGER.xlsx</span>
-              <span>CRM Rows: {sheetData.length} active clients</span>
+              <span style={{ color: 'var(--accent-secondary)', fontWeight: 800 }}>📂 CORPORATE_OPERATIONS_CRM_LEDGER.xlsx</span>
+              <span>{language === 'id' ? 'Baris CRM' : 'CRM Rows'}: {sheetData.length} {language === 'id' ? 'klien aktif' : 'active clients'}</span>
             </div>
 
             {/* Spreadsheet Table */}
@@ -460,19 +544,21 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                 textAlign: 'left'
               }}>
                 <thead>
-                  <tr style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid var(--glass-border)' }}>
-                    <th style={{ padding: '0.5rem', width: '40px', background: 'rgba(0,0,0,0.2)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>A (Client Identity)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B (Market Niche)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C (Active SOP Milestones Stage)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center' }}>D (Tasks Checked)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center' }}>E (CRM Invoice Status)</th>
+                  <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--glass-border)' }}>
+                    <th style={{ padding: '0.5rem', width: '40px', background: 'var(--bg-tertiary)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>A ({language === 'id' ? 'Identitas Klien' : 'Client Identity'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B ({language === 'id' ? 'Niche Pasar' : 'Market Niche'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C ({language === 'id' ? 'Tahap Milestones SOP Aktif' : 'Active SOP Milestones Stage'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center' }}>D ({language === 'id' ? 'Tugas Selesai' : 'Tasks Checked'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center' }}>E ({language === 'id' ? 'Status Faktur CRM' : 'CRM Invoice Status'})</th>
                     <th style={{ padding: '0.65rem 1rem', color: 'var(--text-main)' }}>F (VA Lead Assignee)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sheetData.map((row, index) => {
                     const isFlashing = flashingRowId === row.id;
+                    const niche = language === 'id' ? row.niche_id : row.niche_en;
+                    const stage = language === 'id' ? row.stage_id : row.stage_en;
                     
                     return (
                       <tr
@@ -482,14 +568,14 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                           background: isFlashing 
                             ? 'rgba(16, 185, 129, 0.2)' 
                             : index % 2 === 0 
-                            ? 'rgba(0,0,0,0.1)' 
+                            ? 'rgba(0,0,0,0.02)' 
                             : 'transparent',
                           transition: 'background 0.5s ease'
                         }}
                       >
                         <td style={{
                           padding: '0.5rem',
-                          background: 'rgba(0,0,0,0.2)',
+                          background: 'var(--bg-tertiary)',
                           borderRight: '1px solid var(--glass-border)',
                           textAlign: 'center',
                           color: 'var(--text-muted)',
@@ -508,14 +594,14 @@ const NotionWorkspacePage = ({ setActivePage }) => {
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-muted)' }}>
                           <input
                             type="text"
-                            value={row.niche}
+                            value={niche}
                             onChange={(e) => handleSheetCellEdit(row.id, 'niche', e.target.value)}
                             style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text-muted)', fontFamily: 'monospace', outline: 'none' }}
                           />
                         </td>
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>
-                          <span style={{ color: row.stage.includes('Launch') || row.stage.includes('Active') ? 'var(--accent-secondary)' : row.stage.includes('Integration') ? '#3b82f6' : 'hsl(38,92%,50%)', fontWeight: 700 }}>
-                            {row.stage}
+                          <span style={{ color: stage.includes('Launch') || stage.includes('Peluncuran') || stage.includes('Active') || stage.includes('Aktif') ? 'var(--accent-secondary)' : stage.includes('Integration') || stage.includes('Integrasi') ? '#3b82f6' : 'hsl(38,92%,50%)', fontWeight: 700 }}>
+                            {stage}
                           </span>
                         </td>
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center', fontWeight: 800 }}>

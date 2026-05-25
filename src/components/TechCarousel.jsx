@@ -6,7 +6,7 @@ const TechCarousel = () => {
 
   const technologies = [
     { name: 'Google Workspace', color: '#4285F4' },
-    { name: 'Notion', color: '#ffffff' },
+    { name: 'Notion', color: '#000000' },
     { name: 'Trello', color: '#0052CC' },
     { name: 'Slack', color: '#4A154B' },
     { name: 'Canva', color: '#00C4CC' },

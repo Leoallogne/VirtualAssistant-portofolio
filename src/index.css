@@ -26,22 +26,22 @@
 }
 
 :root[data-theme="light"] {
-  --bg-primary: hsl(210, 20%, 96%);
+  --bg-primary: hsl(220, 55%, 98%);
   --bg-secondary: hsl(0, 0%, 100%);
-  --bg-tertiary: hsl(210, 20%, 90%);
-  --text-main: hsl(222, 47%, 12%);
-  --text-muted: hsl(215, 15%, 45%);
+  --bg-tertiary: hsl(220, 20%, 93%);
+  --text-main: hsl(222, 60%, 12%);
+  --text-muted: hsl(220, 16%, 38%);
   --text-inverse: hsl(210, 40%, 98%);
-  --accent: hsl(263, 85%, 55%);
-  --accent-secondary: hsl(190, 95%, 40%);
-  --accent-glow: hsla(263, 85%, 55%, 0.12);
-  --accent-secondary-glow: hsla(190, 95%, 40%, 0.12);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-border-hover: rgba(0, 0, 0, 0.18);
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+  --accent: hsl(263, 85%, 50%);
+  --accent-secondary: hsl(187, 95%, 38%);
+  --accent-glow: hsla(263, 85%, 50%, 0.06);
+  --accent-secondary-glow: hsla(187, 95%, 38%, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(103, 114, 229, 0.08);
+  --glass-border-hover: rgba(103, 114, 229, 0.16);
+  --shadow-sm: 0 2px 8px -2px rgba(31, 41, 122, 0.03);
+  --shadow-md: 0 10px 20px -4px rgba(31, 41, 122, 0.05), 0 4px 10px -2px rgba(31, 41, 122, 0.02);
+  --shadow-lg: 0 20px 40px -8px rgba(31, 41, 122, 0.07), 0 6px 20px -3px rgba(31, 41, 122, 0.03);
   --gradient-primary: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
   --glow-rgb: 99, 102, 241;
 }

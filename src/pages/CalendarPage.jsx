@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { LanguageContext } from '../context/LanguageContext';
 
 const CalendarPage = ({ setActivePage }) => {
+  const { language, t } = useContext(LanguageContext);
+
   const [selectedTimezone, setSelectedTimezone] = useState('GMT+7');
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [bookingForm, setBookingForm] = useState({ name: '', email: '', subject: '', platform: 'Zoom', notes: '' });
@@ -8,24 +11,72 @@ const CalendarPage = ({ setActivePage }) => {
   const [showConflictNotice, setShowConflictNotice] = useState(false);
   const [flashingRowId, setFlashingRowId] = useState(null);
 
-  // Available slots base (WIB / GMT+7)
+  // Available slots base (WIB / GMT+7) with bilingual support
   const baseSlots = [
     { id: 'slot-1', wib: '09:00 AM', est: '10:00 PM (-1d)', bst: '03:00 AM', isConflict: false },
     { id: 'slot-2', wib: '10:30 AM', est: '11:30 PM (-1d)', bst: '04:30 AM', isConflict: false },
-    { id: 'slot-3', wib: '02:00 PM', est: '03:00 AM', bst: '08:00 AM', isConflict: true, conflictReason: 'Founder is presenting at MSME Culinary National Webinar.' },
+    { 
+      id: 'slot-3', 
+      wib: '02:00 PM', 
+      est: '03:00 AM', 
+      bst: '08:00 AM', 
+      isConflict: true, 
+      conflictReason_id: 'Founder dijadwalkan menjadi pembicara utama di Webinar Nasional Kuliner UMKM.',
+      conflictReason_en: 'Founder is presenting at MSME Culinary National Webinar.' 
+    },
     { id: 'slot-4', wib: '04:30 PM', est: '05:30 AM', bst: '10:30 AM', isConflict: false }
   ];
 
-  // Active bookings list
+  // Active bookings list with bilingual properties
   const [bookedMeetings, setBookedMeetings] = useState([
-    { id: 1, name: 'Robert Chen', subject: 'Strategic Partner Discussion', time: '11:00 AM', tz: 'EST (New York)', link: 'https://zoom.us/j/88921104', status: 'CONFIRMED' },
-    { id: 2, name: 'Siti Aminah', subject: 'UMKM Marketing Setup', time: '02:30 PM', tz: 'WIB (Jakarta)', link: 'https://zoom.us/j/99148810', status: 'CONFIRMED' }
+    { 
+      id: 1, 
+      name: 'Robert Chen', 
+      subject_id: 'Diskusi Kemitraan Strategis', 
+      subject_en: 'Strategic Partner Discussion', 
+      time: '11:00 AM', 
+      tz_id: 'EST (New York)', 
+      tz_en: 'EST (New York)', 
+      link: 'https://zoom.us/j/88921104', 
+      status: 'CONFIRMED' 
+    },
+    { 
+      id: 2, 
+      name: 'Siti Aminah', 
+      subject_id: 'Persiapan Marketing UMKM', 
+      subject_en: 'UMKM Marketing Setup', 
+      time: '02:30 PM', 
+      tz_id: 'WIB (Jakarta)', 
+      tz_en: 'WIB (Jakarta)', 
+      link: 'https://zoom.us/j/99148810', 
+      status: 'CONFIRMED' 
+    }
   ]);
 
-  // Master Spreadsheet Log data
+  // Master Spreadsheet Log data with bilingual fields
   const [sheetData, setSheetData] = useState([
-    { id: 1, client: 'Robert Chen', time: '11:00 AM', tz: 'EST (New York)', subject: 'Strategic Partner Discussion', link: 'https://zoom.us/j/88921104', status: 'CONFIRMED' },
-    { id: 2, client: 'Siti Aminah', time: '02:30 PM', tz: 'WIB (Jakarta)', subject: 'UMKM Marketing Setup', link: 'https://zoom.us/j/99148810', status: 'CONFIRMED' }
+    { 
+      id: 1, 
+      client: 'Robert Chen', 
+      time: '11:00 AM', 
+      tz_id: 'EST (New York)', 
+      tz_en: 'EST (New York)', 
+      subject_id: 'Diskusi Kemitraan Strategis', 
+      subject_en: 'Strategic Partner Discussion', 
+      link: 'https://zoom.us/j/88921104', 
+      status: 'CONFIRMED' 
+    },
+    { 
+      id: 2, 
+      client: 'Siti Aminah', 
+      time: '02:30 PM', 
+      tz_id: 'WIB (Jakarta)', 
+      tz_en: 'WIB (Jakarta)', 
+      subject_id: 'Persiapan Marketing UMKM', 
+      subject_en: 'UMKM Marketing Setup', 
+      link: 'https://zoom.us/j/99148810', 
+      status: 'CONFIRMED' 
+    }
   ]);
 
   const handleTimezoneChange = (tz) => {
@@ -72,11 +123,13 @@ const CalendarPage = ({ setActivePage }) => {
     const newMeeting = {
       id: meetingId,
       name: bookingForm.name,
-      subject: bookingForm.subject || 'Discovery Consultation',
+      subject_id: bookingForm.subject || 'Konsultasi Perkenalan',
+      subject_en: bookingForm.subject || 'Discovery Consultation',
       time: slotTime,
-      tz: tzLabel,
+      tz_id: tzLabel,
+      tz_en: tzLabel,
       link: generatedLink,
-      status: selectedSlot.isConflict ? 'TENTATIVE HOLD (CONFLICT RESOLVED)' : 'CONFIRMED'
+      status: selectedSlot.isConflict ? 'TENTATIVE HOLD' : 'CONFIRMED'
     };
 
     setIsBooked(true);
@@ -91,8 +144,10 @@ const CalendarPage = ({ setActivePage }) => {
         id: meetingId,
         client: bookingForm.name,
         time: slotTime,
-        tz: tzLabel,
-        subject: bookingForm.subject || 'Discovery Consultation',
+        tz_id: tzLabel,
+        tz_en: tzLabel,
+        subject_id: bookingForm.subject || 'Konsultasi Perkenalan',
+        subject_en: bookingForm.subject || 'Discovery Consultation',
         link: generatedLink,
         status: selectedSlot.isConflict ? 'TENTATIVE' : 'CONFIRMED'
       };
@@ -122,7 +177,18 @@ const CalendarPage = ({ setActivePage }) => {
   };
 
   const handleSheetCellEdit = (rowId, field, newText) => {
-    setSheetData(prev => prev.map(row => row.id === rowId ? { ...row, [field]: newText } : row));
+    setSheetData(prev => prev.map(row => {
+      if (row.id === rowId) {
+        if (field === 'client') return { ...row, client: newText };
+        if (field === 'subject') {
+          return language === 'id' 
+            ? { ...row, subject_id: newText }
+            : { ...row, subject_en: newText };
+        }
+        if (field === 'link') return { ...row, link: newText };
+      }
+      return row;
+    }));
   };
 
   return (
@@ -141,20 +207,20 @@ const CalendarPage = ({ setActivePage }) => {
             className="btn btn-secondary"
             style={{ padding: '0.6rem 1.25rem', fontSize: '0.9rem', borderRadius: '10px' }}
           >
-            ← Back to Portfolio
+            {t.expBack}
           </button>
           <div>
-            <span className="section-tag" style={{ marginBottom: 0 }}>Interactive Sandbox</span>
+            <span className="section-tag" style={{ marginBottom: 0 }}>{t.expTag}</span>
           </div>
         </div>
 
         {/* Title */}
         <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>
-            Executive Calendar & <span className="text-gradient">Conflict Log</span> Simulator
+            {language === 'id' ? <>Simulator Kalender Eksekutif & <span className="text-gradient">Log Konflik</span></> : <>Executive Calendar & <span className="text-gradient">Conflict Log</span> Simulator</>}
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto' }}>
-            Demonstrate timezone-aware coordination. Book meeting slots, trigger interactive conflict resolution, and inspect the real-time Google Sheets Master Log below.
+            {t.calSub}
           </p>
         </div>
 
@@ -169,13 +235,13 @@ const CalendarPage = ({ setActivePage }) => {
           {/* Booking Widget Panel */}
           <div className="glass-panel" style={{ padding: '2.25rem', border: '1px solid var(--glass-border)' }}>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>📅 Calendar Booking Terminal</span>
+              <span>{t.calBookingTitle}</span>
             </h3>
 
             {/* Timezone Switcher */}
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '0.6rem', textTransform: 'uppercase' }}>
-                Select Client Timezone
+                {t.calSelectTz}
               </label>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {['GMT+7', 'GMT-5', 'GMT+1'].map(tz => {
@@ -206,7 +272,7 @@ const CalendarPage = ({ setActivePage }) => {
             {/* Time-slot grid */}
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '0.6rem', textTransform: 'uppercase' }}>
-                Select Available Slot
+                {t.calSelectSlot}
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 {baseSlots.map((slot) => {
@@ -277,12 +343,10 @@ const CalendarPage = ({ setActivePage }) => {
                 animation: 'fade-in 0.3s ease'
               }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  ⚠️ Conflict Alert (Proactive VA Warning)
+                  {t.calConflictAlert}
                 </span>
                 <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
-                  The Founder is scheduled for a <strong>National MSME Webinar presentation</strong> during this time. 
-                  As a proactive Virtual Assistant, I strongly recommend rescheduling to slot <strong>10:30 AM</strong> or slot <strong>04:30 PM</strong>. 
-                  <em> (Booking anyway will tag status as "TENTATIVE HOLD" in Excel.)</em>
+                  {t.calConflictDesc}
                 </p>
               </div>
             )}
@@ -290,7 +354,7 @@ const CalendarPage = ({ setActivePage }) => {
             {/* Booking Form Intake */}
             {selectedSlot && (
               <form onSubmit={handleBookMeeting} style={{
-                background: 'rgba(0,0,0,0.12)',
+                background: 'rgba(0,0,0,0.06)',
                 border: '1px solid var(--glass-border)',
                 borderRadius: '12px',
                 padding: '1.25rem',
@@ -300,31 +364,31 @@ const CalendarPage = ({ setActivePage }) => {
                 animation: 'fade-in 0.3s ease'
               }}>
                 <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>
-                  Intake Information Form:
+                  {t.calIntakeForm}
                 </span>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>Client Full Name</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>{t.calClientName}</label>
                     <input
                       type="text"
                       name="name"
                       value={bookingForm.name}
                       onChange={handleChange}
                       style={{ width: '100%', padding: '0.5rem', background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '6px', color: 'var(--text-main)', fontSize: '0.8rem' }}
-                      placeholder="e.g., Sisca Indah"
+                      placeholder={t.calClientPlaceholder}
                       required
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>Email Address</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>{t.calEmailAddress}</label>
                     <input
                       type="email"
                       name="email"
                       value={bookingForm.email}
                       onChange={handleChange}
                       style={{ width: '100%', padding: '0.5rem', background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '6px', color: 'var(--text-main)', fontSize: '0.8rem' }}
-                      placeholder="client@mail.com"
+                      placeholder={t.calEmailPlaceholder}
                       required
                     />
                   </div>
@@ -332,18 +396,18 @@ const CalendarPage = ({ setActivePage }) => {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '0.75rem' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>Meeting Agenda Subject</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>{t.calMeetingAgenda}</label>
                     <input
                       type="text"
                       name="subject"
                       value={bookingForm.subject}
                       onChange={handleChange}
                       style={{ width: '100%', padding: '0.5rem', background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '6px', color: 'var(--text-main)', fontSize: '0.8rem' }}
-                      placeholder="e.g., Supply chain review"
+                      placeholder={t.calMeetingPlaceholder}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>Platform Link</label>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 700 }}>{t.calPlatformLink}</label>
                     <select
                       name="platform"
                       value={bookingForm.platform}
@@ -363,7 +427,7 @@ const CalendarPage = ({ setActivePage }) => {
                   style={{ width: '100%', justifyContent: 'center', padding: '0.65rem 1rem', fontSize: '0.85rem' }}
                   disabled={isBooked}
                 >
-                  {isBooked ? 'Transmitting Schedule...' : 'Register Calendar Appointment'}
+                  {isBooked ? t.calBtnSubmitting : t.calBtnSubmit}
                 </button>
               </form>
             )}
@@ -372,16 +436,20 @@ const CalendarPage = ({ setActivePage }) => {
           {/* Active Schedule Panel */}
           <div className="glass-panel" style={{ padding: '2.25rem', border: '1px solid var(--glass-border)', height: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span>🗓️ Executive Active Roster</span>
+              <span>{t.calActiveRoster}</span>
             </h3>
             
             <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: 0 }}>
-              Meetings registered in the current active simulation state (Timezone adjusted):
+              {t.calRosterDesc}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '310px', overflowY: 'auto', paddingRight: '0.25rem' }}>
               {bookedMeetings.map((meeting) => {
-                const isConflictState = meeting.status.includes('CONFLICT');
+                const isConflictState = meeting.status.includes('HOLD') || meeting.status.includes('TENTATIVE');
+                
+                const subject = language === 'id' ? meeting.subject_id : meeting.subject_en;
+                const tz = language === 'id' ? meeting.tz_id : meeting.tz_en;
+
                 return (
                   <div
                     key={meeting.id}
@@ -406,17 +474,17 @@ const CalendarPage = ({ setActivePage }) => {
                       border: '1px solid',
                       borderColor: isConflictState ? 'rgba(239,68,68,0.3)' : 'rgba(16, 185, 129, 0.3)'
                     }}>
-                      {isConflictState ? 'Conflict Resolved' : 'Confirmed'}
+                      {isConflictState ? (language === 'id' ? 'Konflik Teratasi' : 'Conflict Resolved') : (language === 'id' ? 'Terkonfirmasi' : 'Confirmed')}
                     </div>
 
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.25rem', width: '65%' }}>
-                      {meeting.subject}
+                      {subject}
                     </h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '0.25rem' }}>
-                      Attendee: {meeting.name}
+                      {language === 'id' ? 'Peserta' : 'Attendee'}: {meeting.name}
                     </p>
                     <div style={{ fontSize: '0.75rem', color: 'var(--accent-secondary)', fontWeight: 700 }}>
-                      ⌚ {meeting.time} ({meeting.tz}) | <a href={meeting.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Join Room</a>
+                      ⌚ {meeting.time} ({tz}) | <a href={meeting.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>{language === 'id' ? 'Gabung Rapat' : 'Join Room'}</a>
                     </div>
                   </div>
                 );
@@ -431,12 +499,12 @@ const CalendarPage = ({ setActivePage }) => {
               padding: '0.85rem'
             }}>
               <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'hsl(142, 70%, 45%)', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>
-                🔄 Automated Action SOP Checklist
+                {t.calChecklistSop}
               </span>
               <ul style={{ paddingLeft: '1rem', margin: 0, fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                <li>✓ Trigger Google Calendar invitation webhook logs.</li>
-                <li>✓ Formulate Zoom Meeting API keys and construct links.</li>
-                <li>✓ Log entries dynamically in appointment spreadsheets.</li>
+                <li>{t.calChecklist1}</li>
+                <li>{t.calChecklist2}</li>
+                <li>{t.calChecklist3}</li>
               </ul>
             </div>
           </div>
@@ -447,16 +515,16 @@ const CalendarPage = ({ setActivePage }) => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                <span>📊 Appointment Ledger Spreadsheet</span>
-                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>Live Excel Sync</span>
+                <span>{t.calSheetTitle}</span>
+                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>{t.expExcelSync}</span>
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-                Corporate Master Sheet documenting client intake. Double-click status cells to toggle status or edit text cells directly.
+                {t.calSheetDesc}
               </p>
             </div>
             
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-              Formula active: `=COUNTA(B2:B99)`
+              {t.calFormula}
             </div>
           </div>
 
@@ -465,22 +533,22 @@ const CalendarPage = ({ setActivePage }) => {
             border: '1px solid var(--glass-border)',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: 'var(--premium-shadow)'
+            boxShadow: 'var(--shadow-md)'
           }}>
-            {/* Excel top menu bar */}
+            {/* Excel top menu bar - Theme Aware */}
             <div style={{
-              background: '#1b2a47',
+              background: 'var(--bg-tertiary)',
               borderBottom: '1px solid var(--glass-border)',
               padding: '0.5rem 1rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               fontSize: '0.75rem',
-              color: '#a0aec0',
+              color: 'var(--text-muted)',
               fontFamily: 'monospace'
             }}>
-              <span style={{ color: '#48bb78', fontWeight: 800 }}>📂 FOUNDER_MASTER_APPOINTMENT_LOG_2026.xlsx</span>
-              <span>Grid Rows: {sheetData.length} active</span>
+              <span style={{ color: 'var(--accent-secondary)', fontWeight: 800 }}>📂 FOUNDER_MASTER_APPOINTMENT_LOG_2026.xlsx</span>
+              <span>{language === 'id' ? 'Baris Aktif' : 'Grid Rows'}: {sheetData.length} {language === 'id' ? 'item' : 'active'}</span>
             </div>
 
             {/* Spreadsheet Table */}
@@ -493,19 +561,21 @@ const CalendarPage = ({ setActivePage }) => {
                 textAlign: 'left'
               }}>
                 <thead>
-                  <tr style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid var(--glass-border)' }}>
-                    <th style={{ padding: '0.5rem', width: '40px', background: 'rgba(0,0,0,0.2)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>A (Client Identity)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B (Time Slot)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C (Timezone)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>D (Agenda Details)</th>
+                  <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--glass-border)' }}>
+                    <th style={{ padding: '0.5rem', width: '40px', background: 'var(--bg-tertiary)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>A ({language === 'id' ? 'Identitas Klien' : 'Client Identity'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B ({language === 'id' ? 'Slot Waktu' : 'Time Slot'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C ({language === 'id' ? 'Zona Waktu' : 'Timezone'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>D ({language === 'id' ? 'Detail Rencana Rapat' : 'Agenda Details'})</th>
                     <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>E (Platform Link)</th>
-                    <th style={{ padding: '0.65rem 1rem', color: 'var(--text-main)', textAlign: 'center' }}>F (Roster Status)</th>
+                    <th style={{ padding: '0.65rem 1rem', color: 'var(--text-main)', textAlign: 'center' }}>F ({language === 'id' ? 'Status Rapat' : 'Roster Status'})</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sheetData.map((row, index) => {
                     const isFlashing = flashingRowId === row.id;
+                    const subject = language === 'id' ? row.subject_id : row.subject_en;
+                    const tz = language === 'id' ? row.tz_id : row.tz_en;
                     
                     return (
                       <tr
@@ -515,14 +585,14 @@ const CalendarPage = ({ setActivePage }) => {
                           background: isFlashing 
                             ? 'rgba(16, 185, 129, 0.2)' 
                             : index % 2 === 0 
-                            ? 'rgba(0,0,0,0.1)' 
+                            ? 'rgba(0,0,0,0.02)' 
                             : 'transparent',
                           transition: 'background 0.5s ease'
                         }}
                       >
                         <td style={{
                           padding: '0.5rem',
-                          background: 'rgba(0,0,0,0.2)',
+                          background: 'var(--bg-tertiary)',
                           borderRight: '1px solid var(--glass-border)',
                           textAlign: 'center',
                           color: 'var(--text-muted)',
@@ -542,12 +612,12 @@ const CalendarPage = ({ setActivePage }) => {
                           {row.time}
                         </td>
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-muted)' }}>
-                          {row.tz}
+                          {tz}
                         </td>
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>
                           <input
                             type="text"
-                            value={row.subject}
+                            value={subject}
                             onChange={(e) => handleSheetCellEdit(row.id, 'subject', e.target.value)}
                             style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text-main)', fontFamily: 'monospace', outline: 'none' }}
                           />

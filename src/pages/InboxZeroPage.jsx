@@ -1,60 +1,131 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { LanguageContext } from '../context/LanguageContext';
 
 const InboxZeroPage = ({ setActivePage }) => {
+  const { language, t } = useContext(LanguageContext);
+  
   const [activeFolder, setActiveFolder] = useState('inbox');
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [appliedTemplate, setAppliedTemplate] = useState('');
   const [isSent, setIsSent] = useState(false);
   const [flashingRowId, setFlashingRowId] = useState(null);
 
-  // Mock emails database representing task assignments with advanced professional properties
+  // Mock emails database representing task assignments with dual language support
   const [emails, setEmails] = useState([
     {
       id: 1,
       sender: 'Agung Pratama (Supplier)',
-      subject: 'Penawaran Harga Bahan Baku Juni 2026',
+      subject_id: 'Penawaran Harga Bahan Baku Juni 2026',
+      subject_en: 'June 2026 Raw Material Price Offering',
       time: '08:45 AM',
-      body: 'Halo Tim Warung Nusantara, saya ingin mengirimkan pembaruan daftar harga bahan baku ayam dan daging sapi untuk bulan Juni. Ada penyesuaian harga sekitar 3% dikarenakan biaya logistik. Mohon konfirmasi kontrak barunya.',
+      body_id: 'Halo Tim Warung Nusantara, saya ingin mengirimkan pembaruan daftar harga bahan baku ayam dan daging sapi untuk bulan Juni. Ada penyesuaian harga sekitar 3% dikarenakan biaya logistik. Mohon konfirmasi kontrak barunya.',
+      body_en: 'Hello Warung Nusantara Team, I would like to send the updated raw materials price list for chicken and beef for the month of June. There is a price adjustment of around 3% due to logistics. Please confirm the new contract.',
       folder: 'inbox',
-      category: 'Supplier',
+      category_id: 'Pemasok',
+      category_en: 'Supplier',
       priority: 'High',
-      sopRule: 'SOP-SUPPLIER-01: Tinjau kenaikan di bawah 5%, laporkan ke operasional founder, dan draf kontrak sebelum pukul 16.00 WIB.',
-      replyTemplate: 'Halo Pak Agung,\n\nTerima kasih atas pembaruan harga Juni 2026. Laporan penyesuaian 3% sudah kami terima dan sedang ditinjau oleh tim operasional. Kami akan mengirimkan dokumen kontrak yang ditandatangani sore ini pukul 16:00 WIB.\n\nSalam hangat,\nAsisten Virtual Warung Nusantara'
+      sopRule_id: 'SOP-SUPPLIER-01: Tinjau kenaikan di bawah 5%, laporkan ke operasional founder, dan draf kontrak sebelum pukul 16.00 WIB.',
+      sopRule_en: 'SOP-SUPPLIER-01: Review increases under 5%, report to founder operations, and draft the contract before 16:00 WIB.',
+      replyTemplate_id: 'Halo Pak Agung,\n\nTerima kasih atas pembaruan harga Juni 2026. Laporan penyesuaian 3% sudah kami terima dan sedang ditinjau oleh tim operasional. Kami akan mengirimkan dokumen kontrak yang ditandatangani sore ini pukul 16:00 WIB.\n\nSalam hangat,\nAsisten Virtual Warung Nusantara',
+      replyTemplate_en: 'Hello Mr. Agung,\n\nThank you for the June 2026 price update. The 3% adjustment report has been received and is being reviewed by the operations team. We will send the signed contract document this afternoon at 16:00 WIB.\n\nBest regards,\nWarung Nusantara Virtual Assistant'
     },
     {
       id: 2,
       sender: 'Sisca Indah (Customer)',
-      subject: 'Pertanyaan Pengiriman Order #9914',
+      subject_id: 'Pertanyaan Pengiriman Order #9914',
+      subject_en: 'Inquiry on Order Shipping #9914',
       time: '09:12 AM',
-      body: 'Halo, saya memesan paket katering kemarin sore tapi nomor resi pengiriman belum aktif. Bisa tolong dicek status pengiriman pesanan saya?',
+      body_id: 'Halo, saya memesan paket katering kemarin sore tapi nomor resi pengiriman belum aktif. Bisa tolong dicek status pengiriman pesanan saya?',
+      body_en: 'Hello, I ordered a catering package yesterday afternoon but the shipping tracking number is not active yet. Could you please check the shipping status of my order?',
       folder: 'inbox',
-      category: 'Customer',
+      category_id: 'Pelanggan',
+      category_en: 'Customer',
       priority: 'High',
-      sopRule: 'SOP-CUST-99: Periksa resi kurir logistik di portal partner katering, ambil kode pelacakan aktif, dan berikan estimasi tiba.',
-      replyTemplate: 'Halo Ibu Sisca,\n\nTerima kasih telah menghubungi kami. Kami telah memeriksa pesanan #9914 Anda. Kurir logistik baru saja melakukan pick-up pagi ini pukul 08:30 WIB. Resi pengiriman Anda sudah aktif sekarang dan pesanan diestimasikan tiba dalam 2 jam.\n\nSalam hangat,\nLayanan Pelanggan Warung Nusantara'
+      sopRule_id: 'SOP-CUST-99: Periksa resi kurir logistik di portal partner katering, ambil kode pelacakan aktif, dan berikan estimasi tiba.',
+      sopRule_en: 'SOP-CUST-99: Check the courier tracking in the catering partner portal, retrieve the active tracking code, and provide an arrival ETA.',
+      replyTemplate_id: 'Halo Ibu Sisca,\n\nTerima kasih telah menghubungi kami. Kami telah memeriksa pesanan #9914 Anda. Kurir logistik baru saja melakukan pick-up pagi ini pukul 08:30 WIB. Resi pengiriman Anda sudah aktif sekarang dan pesanan diestimasikan tiba dalam 2 jam.\n\nSalam hangat,\nLayanan Pelanggan Warung Nusantara',
+      replyTemplate_en: 'Hello Mrs. Sisca,\n\nThank you for reaching out. We have checked your order #9914. The logistics courier just picked up the package this morning at 08:30 WIB. Your shipping receipt is now active and the order is estimated to arrive within 2 hours.\n\nBest regards,\nWarung Nusantara Customer Service'
     },
     {
       id: 3,
       sender: 'Budi Santoso (Partner Bisnis)',
-      subject: 'Undangan Rapat Evaluasi Kemitraan Q2',
+      subject_id: 'Undangan Rapat Evaluasi Kemitraan Q2',
+      subject_en: 'Q2 Partnership Evaluation Meeting Invite',
       time: '10:30 AM',
-      body: 'Selamat pagi, saya ingin mengundang founder Warung Nusantara untuk rapat evaluasi kemitraan Q2 minggu depan. Tersedia hari Selasa pukul 10:00 WIB atau Kamis pukul 14:00 WIB. Mohon koordinasikan jadwalnya.',
+      body_id: 'Selamat pagi, saya ingin mengundang founder Warung Nusantara untuk rapat evaluasi kemitraan Q2 minggu depan. Tersedia hari Selasa pukul 10:00 WIB atau Kamis pukul 14:00 WIB. Mohon koordinasikan jadwalnya.',
+      body_en: 'Good morning, I would like to invite the founder of Warung Nusantara for a Q2 partnership evaluation meeting next week. Available on Tuesday at 10:00 WIB or Thursday at 14:00 WIB. Please coordinate the schedule.',
       folder: 'inbox',
-      category: 'Meeting',
+      category_id: 'Rapat',
+      category_en: 'Meeting',
       priority: 'Medium',
-      sopRule: 'SOP-SCHED-04: Cocokkan slot dengan Master Kalender, buat undangan Zoom/Meet, dan daftarkan sebagai slot hold.',
-      replyTemplate: 'Halo Pak Budi,\n\nTerima kasih atas undangannya. Kami telah mencocokkan jadwal Founder. Beliau tersedia untuk rapat evaluasi Q2 pada hari Selasa minggu depan pukul 10:00 WIB. Tautan Google Meet telah kami daftarkan ke kalender Anda.\n\nSalam hangat,\nAsisten Virtual Warung Nusantara'
+      sopRule_id: 'SOP-SCHED-04: Cocokkan slot dengan Master Kalender, buat undangan Zoom/Meet, dan daftarkan sebagai slot hold.',
+      sopRule_en: 'SOP-SCHED-04: Match slot with Master Calendar, create Zoom/Meet invites, and register as slot hold.',
+      replyTemplate_id: 'Halo Pak Budi,\n\nTerima kasih atas undangannya. Kami telah mencocokkan jadwal Founder. Beliau tersedia untuk rapat evaluasi Q2 pada hari Selasa minggu depan pukul 10:00 WIB. Tautan Google Meet telah kami daftarkan ke kalender Anda.\n\nSalam hangat,\nAsisten Virtual Warung Nusantara',
+      replyTemplate_en: 'Hello Mr. Budi,\n\nThank you for the invitation. We have aligned the Founder\'s schedule. He is available for the Q2 evaluation meeting next Tuesday at 10:00 WIB. The Google Meet link has been added to your calendar.\n\nBest regards,\nWarung Nusantara Virtual Assistant'
     }
   ]);
 
-  // Google Sheets / Excel Live Tracker data
+  // Google Sheets / Excel Live Tracker data with bilingual values
   const [sheetData, setSheetData] = useState([
-    { id: 1, timestamp: '08:47 AM', sender: 'Agung Pratama (Supplier)', category: 'Supplier', status: 'PENDING', action: 'Awaiting triaged response' },
-    { id: 2, timestamp: '09:15 AM', sender: 'Sisca Indah (Customer)', category: 'Customer', status: 'PENDING', action: 'Awaiting triaged response' },
-    { id: 3, timestamp: '10:32 AM', sender: 'Budi Santoso (Partner)', category: 'Meeting', status: 'PENDING', action: 'Awaiting triaged response' },
-    { id: 4, timestamp: 'Yesterday', sender: 'Joni Wijaya (Customer)', category: 'Customer', status: 'RESOLVED', action: 'Delivered food voucher #8812' },
-    { id: 5, timestamp: 'Yesterday', sender: 'Diana Putri (Marketing)', category: 'Marketing', status: 'RESOLVED', action: 'Sent review brief document to influencer' }
+    { 
+      id: 1, 
+      timestamp: '08:47 AM', 
+      sender: 'Agung Pratama (Supplier)', 
+      category_id: 'Pemasok',
+      category_en: 'Supplier',
+      status: 'PENDING', 
+      action_id: 'Menunggu tanggapan triase',
+      action_en: 'Awaiting triaged response'
+    },
+    { 
+      id: 2, 
+      timestamp: '09:15 AM', 
+      sender: 'Sisca Indah (Customer)', 
+      category_id: 'Pelanggan',
+      category_en: 'Customer',
+      status: 'PENDING', 
+      action_id: 'Menunggu tanggapan triase',
+      action_en: 'Awaiting triaged response'
+    },
+    { 
+      id: 3, 
+      timestamp: '10:32 AM', 
+      sender: 'Budi Santoso (Partner)', 
+      category_id: 'Rapat',
+      category_en: 'Meeting',
+      status: 'PENDING', 
+      action_id: 'Menunggu tanggapan triase',
+      action_en: 'Awaiting triaged response'
+    },
+    { 
+      id: 4, 
+      timestamp: 'Yesterday', 
+      sender: 'Joni Wijaya (Customer)', 
+      category_id: 'Pelanggan',
+      category_en: 'Customer',
+      status: 'RESOLVED', 
+      action_id: 'Mengirimkan voucher makanan #8812',
+      action_en: 'Delivered food voucher #8812'
+    },
+    { 
+      id: 5, 
+      timestamp: 'Yesterday', 
+      sender: 'Diana Putri (Marketing)', 
+      category_id: 'Pemasaran',
+      category_en: 'Marketing',
+      status: 'RESOLVED', 
+      action_id: 'Mengirimkan dokumen ringkasan untuk influencer',
+      action_en: 'Sent review brief document to influencer'
+    }
   ]);
+
+  // Sync selected email object with changes in array
+  useEffect(() => {
+    if (selectedEmail) {
+      const updated = emails.find(e => e.id === selectedEmail.id);
+      if (updated) setSelectedEmail(updated);
+    }
+  }, [emails]);
 
   const handleFolderChange = (folder) => {
     setActiveFolder(folder);
@@ -71,14 +142,11 @@ const InboxZeroPage = ({ setActivePage }) => {
 
   const handlePriorityChange = (emailId, newPriority) => {
     setEmails(prev => prev.map(e => e.id === emailId ? { ...e, priority: newPriority } : e));
-    if (selectedEmail && selectedEmail.id === emailId) {
-      setSelectedEmail(prev => ({ ...prev, priority: newPriority }));
-    }
   };
 
   const handleApplyTemplate = () => {
     if (selectedEmail) {
-      setAppliedTemplate(selectedEmail.replyTemplate);
+      setAppliedTemplate(language === 'id' ? selectedEmail.replyTemplate_id : selectedEmail.replyTemplate_en);
     }
   };
 
@@ -95,10 +163,12 @@ const InboxZeroPage = ({ setActivePage }) => {
       // 2. Automatically update corresponding Google Sheets tracker row
       setSheetData(prev => prev.map(row => {
         if (row.id === selectedEmail.id) {
+          const category = language === 'id' ? selectedEmail.category_id : selectedEmail.category_en;
           return {
             ...row,
             status: 'RESOLVED',
-            action: `Sent automated reply (${selectedEmail.category} SOPapplied)`
+            action_id: `Mengirim balasan otomatis (SOP ${category} diterapkan)`,
+            action_en: `Sent automated reply (${category} SOP applied)`
           };
         }
         return row;
@@ -115,25 +185,32 @@ const InboxZeroPage = ({ setActivePage }) => {
     }, 1000);
   };
 
-  // Interactive toggle cell status in Excel directly
   const toggleSheetStatus = (rowId) => {
     const statuses = ['PENDING', 'RESOLVED', 'ESCALATED'];
     setSheetData(prev => prev.map(row => {
       if (row.id === rowId) {
         const nextIndex = (statuses.indexOf(row.status) + 1) % statuses.length;
+        const nextStatus = statuses[nextIndex];
         return {
           ...row,
-          status: statuses[nextIndex],
-          action: statuses[nextIndex] === 'RESOLVED' ? 'Manually closed in spreadsheet' : row.action
+          status: nextStatus,
+          action_id: nextStatus === 'RESOLVED' ? 'Diselesaikan secara manual di spreadsheet' : row.action_id,
+          action_en: nextStatus === 'RESOLVED' ? 'Manually closed in spreadsheet' : row.action_en
         };
       }
       return row;
     }));
   };
 
-  // Direct cell editing simulation for action text
   const handleActionCellEdit = (rowId, newText) => {
-    setSheetData(prev => prev.map(row => row.id === rowId ? { ...row, action: newText } : row));
+    setSheetData(prev => prev.map(row => {
+      if (row.id === rowId) {
+        return language === 'id' 
+          ? { ...row, action_id: newText }
+          : { ...row, action_en: newText };
+      }
+      return row;
+    }));
   };
 
   const inboxCount = emails.length;
@@ -156,20 +233,20 @@ const InboxZeroPage = ({ setActivePage }) => {
             className="btn btn-secondary"
             style={{ padding: '0.6rem 1.25rem', fontSize: '0.9rem', borderRadius: '10px' }}
           >
-            ← Back to Portfolio
+            {t.expBack}
           </button>
           <div style={{ textAlign: 'right' }}>
-            <span className="section-tag" style={{ marginBottom: 0 }}>Interactive Sandbox</span>
+            <span className="section-tag" style={{ marginBottom: 0 }}>{t.expTag}</span>
           </div>
         </div>
 
         {/* Page Title */}
         <div style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>
-            Gmail & <span className="text-gradient">Excel Escalation</span> Simulator
+            {language === 'id' ? <>Simulator Inbox Zero & <span className="text-gradient">Escalation Excel</span></> : <>Inbox Zero & <span className="text-gradient">Excel Escalation</span> Simulator</>}
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto' }}>
-            Observe how I manage email ticket volume. Categorize priorities, enforce strict company SOPs, and watch live tracking update dynamically into our corporate Excel Sheet tracker below.
+            {t.inboxSub}
           </p>
         </div>
 
@@ -181,24 +258,24 @@ const InboxZeroPage = ({ setActivePage }) => {
           marginBottom: '2rem'
         }}>
           <div className="glass-panel" style={{ padding: '1.25rem', border: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Average Response Time</span>
-            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>12 Mins Rta</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>⏱ Industry Standard: 24 Hours</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{t.inboxKPIResponseTime}</span>
+            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>{t.inboxKPIResponseVal}</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{t.inboxKPIResponseSub}</span>
           </div>
           <div className="glass-panel" style={{ padding: '1.25rem', border: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Spreadsheet Sync Status</span>
-            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--accent)' }}>Live Active</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>🔄 Bidirectional event listening</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{t.inboxKPISyncStatus}</span>
+            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--accent)' }}>{t.inboxKPISyncVal}</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{t.inboxKPISyncSub}</span>
           </div>
           <div className="glass-panel" style={{ padding: '1.25rem', border: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Resolution Performance</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{t.inboxKPIResolution}</span>
             <span style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>{((resolvedCount / totalVolume) * 100).toFixed(1)}%</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>✅ {resolvedCount} of {totalVolume} emails resolved</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>✅ {resolvedCount} {language === 'id' ? 'dari' : 'of'} {totalVolume} {t.inboxKPIResolutionSub}</span>
           </div>
           <div className="glass-panel" style={{ padding: '1.25rem', border: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Outstanding Inbound</span>
-            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: inboxCount > 0 ? 'var(--accent)' : 'var(--accent-secondary)' }}>{inboxCount} Pending</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>📬 Action required for Inbox Zero</span>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{t.inboxKPIOutstanding}</span>
+            <span style={{ fontSize: '1.65rem', fontWeight: 800, color: inboxCount > 0 ? 'var(--accent)' : 'var(--accent-secondary)' }}>{inboxCount} {language === 'id' ? 'Tertunda' : 'Pending'}</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{t.inboxKPIOutstandingSub}</span>
           </div>
         </div>
 
@@ -217,7 +294,7 @@ const InboxZeroPage = ({ setActivePage }) => {
         >
           {/* 1. Gmail Sidebar */}
           <div style={{
-            background: 'rgba(0,0,0,0.15)',
+            background: 'rgba(0,0,0,0.06)',
             borderRight: '1px solid var(--glass-border)',
             padding: '2rem 1.25rem',
             display: 'flex',
@@ -225,7 +302,7 @@ const InboxZeroPage = ({ setActivePage }) => {
             gap: '0.5rem'
           }}>
             <h4 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: '1.5rem', paddingLeft: '0.5rem' }}>
-              Mailboxes
+              {t.inboxSidebarTitle}
             </h4>
             
             <button
@@ -248,7 +325,7 @@ const InboxZeroPage = ({ setActivePage }) => {
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                ✉ Inbox
+                {t.inboxInbox}
               </span>
               <span style={{
                 background: inboxCount > 0 ? 'var(--accent-secondary)' : 'var(--bg-tertiary)',
@@ -281,7 +358,7 @@ const InboxZeroPage = ({ setActivePage }) => {
                 transition: 'all 0.3s ease'
               }}
             >
-              ✓ Sent Tracker
+              {t.inboxSent}
             </button>
 
             {/* Quick Helper SOP reference card */}
@@ -295,9 +372,9 @@ const InboxZeroPage = ({ setActivePage }) => {
               flexDirection: 'column',
               gap: '0.5rem'
             }}>
-              <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: 800 }}>⚡ VA Triage SOP</span>
+              <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: 800 }}>{t.inboxSidebarSopTitle}</span>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                Enforce rapid responses. Assign email priority instantly and log outcomes immediately in Google Sheets.
+                {t.inboxSidebarSopDesc}
               </p>
             </div>
           </div>
@@ -316,8 +393,8 @@ const InboxZeroPage = ({ setActivePage }) => {
               overflowY: 'auto'
             }}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                {activeFolder === 'inbox' ? 'Active Incoming Mail' : 'Canned Sent Logs'}
-                <span className="project-tag" style={{ fontSize: '0.7rem' }}>Live Simulation</span>
+                {activeFolder === 'inbox' ? t.inboxActiveMail : t.inboxSentLogs}
+                <span className="project-tag" style={{ fontSize: '0.7rem' }}>{t.expLiveSandbox}</span>
               </h3>
 
               {activeFolder === 'inbox' && emails.length === 0 ? (
@@ -333,70 +410,76 @@ const InboxZeroPage = ({ setActivePage }) => {
                 }}>
                   <span style={{ fontSize: '4.5rem', animation: 'float-slow 2s infinite alternate' }}>⚡</span>
                   <h4 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>
-                    Inbox Zero Achieved!
+                    {t.inboxZeroHeader}
                   </h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: '320px' }}>
-                    Every outstanding business inquiry has been cataloged, resolved, and documented in the master Excel sheet below.
+                    {t.inboxZeroDesc}
                   </p>
                 </div>
               ) : (
                 /* List of Emails */
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {(activeFolder === 'inbox' ? emails : []).map((email) => (
-                    <div
-                      key={email.id}
-                      onClick={() => handleSelectEmail(email)}
-                      style={{
-                        padding: '1.15rem',
-                        background: selectedEmail?.id === email.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
-                        border: '1px solid var(--glass-border)',
-                        borderColor: selectedEmail?.id === email.id ? 'var(--accent)' : 'var(--glass-border)',
-                        borderRadius: '12px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (selectedEmail?.id !== email.id) {
-                          e.currentTarget.style.borderColor = 'var(--accent-secondary)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (selectedEmail?.id !== email.id) {
-                          e.currentTarget.style.borderColor = 'var(--glass-border)';
-                        }
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)' }}>{email.sender}</span>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{email.time}</span>
-                      </div>
-                      <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.35rem' }}>{email.subject}</h4>
-                      <p style={{
-                        fontSize: '0.8rem',
-                        color: 'var(--text-muted)',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
-                      }}>
-                        {email.body}
-                      </p>
-                      <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                        <span className="project-tag" style={{ fontSize: '0.6rem', padding: '0.15rem 0.5rem' }}>{email.category}</span>
-                        <span style={{ 
-                          fontSize: '0.65rem', 
-                          fontWeight: 700, 
-                          color: email.priority === 'High' ? 'var(--accent)' : 'var(--text-muted)',
-                          marginLeft: 'auto'
+                  {(activeFolder === 'inbox' ? emails : []).map((email) => {
+                    const subject = language === 'id' ? email.subject_id : email.subject_en;
+                    const body = language === 'id' ? email.body_id : email.body_en;
+                    const category = language === 'id' ? email.category_id : email.category_en;
+                    
+                    return (
+                      <div
+                        key={email.id}
+                        onClick={() => handleSelectEmail(email)}
+                        style={{
+                          padding: '1.15rem',
+                          background: selectedEmail?.id === email.id ? 'var(--bg-tertiary)' : 'var(--bg-secondary)',
+                          border: '1px solid var(--glass-border)',
+                          borderColor: selectedEmail?.id === email.id ? 'var(--accent)' : 'var(--glass-border)',
+                          borderRadius: '12px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (selectedEmail?.id !== email.id) {
+                            e.currentTarget.style.borderColor = 'var(--accent-secondary)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (selectedEmail?.id !== email.id) {
+                            e.currentTarget.style.borderColor = 'var(--glass-border)';
+                          }
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                          <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)' }}>{email.sender}</span>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{email.time}</span>
+                        </div>
+                        <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.35rem' }}>{subject}</h4>
+                        <p style={{
+                          fontSize: '0.8rem',
+                          color: 'var(--text-muted)',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
                         }}>
-                          Priority: {email.priority}
-                        </span>
+                          {body}
+                        </p>
+                        <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                          <span className="project-tag" style={{ fontSize: '0.6rem', padding: '0.15rem 0.5rem' }}>{category}</span>
+                          <span style={{ 
+                            fontSize: '0.65rem', 
+                            fontWeight: 700, 
+                            color: email.priority === 'High' ? 'var(--accent)' : 'var(--text-muted)',
+                            marginLeft: 'auto'
+                          }}>
+                            {language === 'id' ? 'Prioritas' : 'Priority'}: {email.priority}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                   {activeFolder === 'sent' && (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '220px', textAlign: 'center', color: 'var(--text-muted)', gap: '0.5rem' }}>
-                      <p style={{ fontSize: '0.9rem' }}>All historical communications logged directly in the spreadsheet ledger.</p>
-                      <span className="project-tag" style={{ fontSize: '0.65rem' }}>Automated event logging active</span>
+                      <p style={{ fontSize: '0.9rem' }}>{language === 'id' ? 'Semua komunikasi tercatat langsung di spreadsheet Excel bawah.' : 'All communications logged directly in the spreadsheet below.'}</p>
+                      <span className="project-tag" style={{ fontSize: '0.65rem' }}>{t.expExcelSync}</span>
                     </div>
                   )}
                 </div>
@@ -408,22 +491,22 @@ const InboxZeroPage = ({ setActivePage }) => {
               <div style={{
                 padding: '1.75rem',
                 borderLeft: '1px solid var(--glass-border)',
-                background: 'rgba(0,0,0,0.08)',
+                background: 'rgba(0,0,0,0.03)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
                 overflowY: 'auto'
               }}>
                 <div>
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)' }}>{selectedEmail.subject}</h4>
+                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)' }}>{language === 'id' ? selectedEmail.subject_id : selectedEmail.subject_en}</h4>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                    From: <strong style={{ color: 'var(--text-main)' }}>{selectedEmail.sender}</strong> ({selectedEmail.time})
+                    {language === 'id' ? 'Dari' : 'From'}: <strong style={{ color: 'var(--text-main)' }}>{selectedEmail.sender}</strong> ({selectedEmail.time})
                   </p>
                 </div>
 
                 {/* Priority & Escalation Selector Grid */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', background: 'var(--bg-secondary)', padding: '0.85rem', borderRadius: '10px', border: '1px solid var(--glass-border)' }}>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>Triage Operations</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>{t.inboxTriageOps}</span>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     {['Low', 'Medium', 'High'].map(p => (
                       <button
@@ -451,10 +534,10 @@ const InboxZeroPage = ({ setActivePage }) => {
                 {/* SOP Rule Card display */}
                 <div style={{ background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', padding: '0.85rem 1rem', borderRadius: '10px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'hsl(142, 70%, 45%)', textTransform: 'uppercase' }}>✅ Enforced SOP Directive</span>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'hsl(142, 70%, 45%)', textTransform: 'uppercase' }}>{t.inboxSopDirective}</span>
                   </div>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                    {selectedEmail.sopRule}
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
+                    {language === 'id' ? selectedEmail.sopRule_id : selectedEmail.sopRule_en}
                   </p>
                 </div>
 
@@ -467,7 +550,7 @@ const InboxZeroPage = ({ setActivePage }) => {
                   color: 'var(--text-muted)',
                   lineHeight: 1.55
                 }}>
-                  {selectedEmail.body}
+                  {language === 'id' ? selectedEmail.body_id : selectedEmail.body_en}
                 </div>
 
                 {/* Automation Actions */}
@@ -477,7 +560,7 @@ const InboxZeroPage = ({ setActivePage }) => {
                     className="btn btn-secondary"
                     style={{ width: '100%', justifyContent: 'center', padding: '0.7rem 1rem', fontSize: '0.85rem' }}
                   >
-                    ⚡ Apply Automated Reply SOP
+                    {t.inboxApplySop}
                   </button>
 
                   {appliedTemplate && (
@@ -505,7 +588,7 @@ const InboxZeroPage = ({ setActivePage }) => {
                         style={{ width: '100%', justifyContent: 'center', padding: '0.7rem 1rem', fontSize: '0.85rem' }}
                         disabled={isSent}
                       >
-                        {isSent ? 'Syncing & Dispatching...' : 'Send Canned Response'}
+                        {isSent ? t.inboxSending : t.inboxSendCanned}
                       </button>
                     </div>
                   )}
@@ -520,20 +603,20 @@ const InboxZeroPage = ({ setActivePage }) => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                <span>📊 Google Sheets Live Ledger</span>
-                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>Real-time updates</span>
+                <span>{t.inboxSheetTitle}</span>
+                <span className="project-tag" style={{ fontSize: '0.65rem', background: 'var(--accent-glow)', color: 'var(--accent-secondary)' }}>{t.expExcelSync}</span>
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-                All ticket states, triage categorization, and resolution times are logged automatically in this spreadsheets. Double-click status to toggle states.
+                {t.inboxSheetDesc}
               </p>
             </div>
             
             <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-secondary)' }}></span> Resolved: {resolvedCount}
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-secondary)' }}></span> {language === 'id' ? 'Teratasi' : 'Resolved'}: {resolvedCount}
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)' }}></span> Pending: {totalVolume - resolvedCount}
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)' }}></span> {language === 'id' ? 'Tertunda' : 'Pending'}: {totalVolume - resolvedCount}
               </span>
             </div>
           </div>
@@ -543,22 +626,22 @@ const InboxZeroPage = ({ setActivePage }) => {
             border: '1px solid var(--glass-border)',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: 'var(--premium-shadow)'
+            boxShadow: 'var(--shadow-md)'
           }}>
-            {/* Google Sheets Top Menu Bar */}
+            {/* Google Sheets Top Menu Bar - Responsive Theme Aware */}
             <div style={{
-              background: '#1b2a47',
+              background: 'var(--bg-tertiary)',
               borderBottom: '1px solid var(--glass-border)',
               padding: '0.5rem 1rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               fontSize: '0.75rem',
-              color: '#a0aec0',
+              color: 'var(--text-muted)',
               fontFamily: 'monospace'
             }}>
-              <span style={{ color: '#63b3ed', fontWeight: 800 }}>📂 WARUNG_NUSANTARA_INBOUND_METRICS_2026.xlsx</span>
-              <span>Formula active: =COUNTIF(E2:E6, "RESOLVED")</span>
+              <span style={{ color: 'var(--accent-secondary)', fontWeight: 800 }}>📂 WARUNG_NUSANTARA_INBOUND_METRICS_2026.xlsx</span>
+              <span>{t.inboxFormula}</span>
             </div>
 
             {/* Spreadsheet Table Scroll Container */}
@@ -571,14 +654,14 @@ const InboxZeroPage = ({ setActivePage }) => {
                 textAlign: 'left'
               }}>
                 <thead>
-                  <tr style={{ background: 'rgba(255,255,255,0.06)', borderBottom: '1px solid var(--glass-border)' }}>
-                    <th style={{ padding: '0.5rem', width: '40px', background: 'rgba(0,0,0,0.2)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
+                  <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--glass-border)' }}>
+                    <th style={{ padding: '0.5rem', width: '40px', background: 'var(--bg-tertiary)', borderRight: '1px solid var(--glass-border)', textAlign: 'center' }}></th>
                     <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>A (Timestamp)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B (Sender Identity)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C (Inbound Type)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>D (Operations Priority)</th>
-                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>E (Ticket Status)</th>
-                    <th style={{ padding: '0.65rem 1rem', color: 'var(--text-main)' }}>F (VA Resolution Action Taken)</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>B ({language === 'id' ? 'Identitas Pengirim' : 'Sender Identity'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>C ({language === 'id' ? 'Tipe Pesan' : 'Inbound Type'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>D ({language === 'id' ? 'Prioritas Operasional' : 'Operations Priority'})</th>
+                    <th style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)' }}>E ({language === 'id' ? 'Status Tiket' : 'Ticket Status'})</th>
+                    <th style={{ padding: '0.65rem 1rem', color: 'var(--text-main)' }}>F ({language === 'id' ? 'Tindakan Resolusi VA' : 'VA Resolution Action Taken'})</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -587,6 +670,9 @@ const InboxZeroPage = ({ setActivePage }) => {
                     const matchedEmail = emails.find(e => e.id === row.id);
                     const currentPriority = matchedEmail ? matchedEmail.priority : 'Low';
                     
+                    const category = language === 'id' ? row.category_id : row.category_en;
+                    const action = language === 'id' ? row.action_id : row.action_en;
+
                     return (
                       <tr
                         key={row.id}
@@ -595,14 +681,14 @@ const InboxZeroPage = ({ setActivePage }) => {
                           background: isFlashing 
                             ? 'rgba(16, 185, 129, 0.2)' 
                             : index % 2 === 0 
-                            ? 'rgba(0,0,0,0.1)' 
+                            ? 'rgba(0,0,0,0.02)' 
                             : 'transparent',
                           transition: 'background 0.5s ease'
                         }}
                       >
                         <td style={{
                           padding: '0.5rem',
-                          background: 'rgba(0,0,0,0.2)',
+                          background: 'var(--bg-tertiary)',
                           borderRight: '1px solid var(--glass-border)',
                           textAlign: 'center',
                           color: 'var(--text-muted)',
@@ -620,15 +706,15 @@ const InboxZeroPage = ({ setActivePage }) => {
                           <span style={{
                             padding: '0.15rem 0.4rem',
                             borderRadius: '4px',
-                            background: 'rgba(255,255,255,0.06)',
+                            background: 'var(--bg-tertiary)',
                             fontSize: '0.7rem'
                           }}>
-                            {row.category}
+                            {category}
                           </span>
                         </td>
                         <td style={{ padding: '0.65rem 1rem', borderRight: '1px solid var(--glass-border)', color: 'var(--text-main)', textAlign: 'center' }}>
                           <span style={{
-                            color: currentPriority === 'High' ? 'var(--accent)' : currentPriority === 'Medium' ? 'var(--accent-secondary)' : '#a0aec0',
+                            color: currentPriority === 'High' ? 'var(--accent)' : currentPriority === 'Medium' ? 'var(--accent-secondary)' : 'var(--text-muted)',
                             fontWeight: 700
                           }}>
                             {currentPriority}
@@ -672,7 +758,7 @@ const InboxZeroPage = ({ setActivePage }) => {
                         <td style={{ padding: '0.65rem 1rem' }}>
                           <input
                             type="text"
-                            value={row.action}
+                            value={action}
                             onChange={(e) => handleActionCellEdit(row.id, e.target.value)}
                             style={{
                               width: '100%',
