@@ -419,8 +419,8 @@ section {
 /* --- ABOUT COMPONENT STYLES --- */
 .about-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: 0.9fr 1.25fr 0.95fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   align-items: start;
 }
 
@@ -1030,6 +1030,16 @@ footer {
   justify-content: center;
 }
 
+@media (max-width: 1200px) {
+  .about-grid {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+  }
+  .about-grid .timeline {
+    grid-column: span 2;
+  }
+}
+
 @media (max-width: 968px) {
   .hero-wrapper {
     grid-template-columns: 1fr;
@@ -1050,6 +1060,10 @@ footer {
   .about-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+
+  .about-grid .timeline {
+    grid-column: span 1;
   }
 
   .contact-grid {
