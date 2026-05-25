@@ -7,387 +7,389 @@ export const translations = {
     // Navbar
     navHome: "Beranda",
     navAbout: "Tentang",
-    navProjects: "Proyek",
+    navProjects: "Portofolio",
     navServices: "Layanan",
     navContact: "Kontak",
     
     // Hero
     heroWelcome: "Selamat Datang di Portofolio Saya",
-    heroIntro: "Hai, saya",
-    heroDesc: "Membangun aplikasi web berperforma tinggi, elegan, dan menakjubkan secara visual. Memadukan arsitektur kode yang bersih dengan interaksi UI/UX modern kelas premium.",
-    heroBtnExplore: "Eksplorasi Karya",
+    heroIntro: "Halo, saya",
+    heroDesc: "Membantu bisnis dan individu bekerja lebih efisien dari jarak jauh. Spesialis manajemen administrasi, email, jadwal, dan operasional harian — sehingga Anda bisa fokus pada hal yang lebih penting.",
+    heroBtnExplore: "Lihat Layanan Saya",
     heroBtnContact: "Hubungi Saya",
     heroRoles: [
-      "Fullstack Developer Kreatif",
-      "Spesialis UI/UX",
-      "Pemecah Masalah Inovatif"
+      "Virtual Assistant Profesional",
+      "Spesialis Admin & Email",
+      "Pengelola Jadwal & Proyek",
+      "VA Social Media"
     ],
 
     // Tech stack carousel title
-    techTitle: "Spesialisasi Teknologi",
+    techTitle: "Tools Yang Saya Kuasai",
 
     // About
-    aboutTag: "Sekilas Tentang Perjalanan Saya",
+    aboutTag: "Kenalan Dengan Saya",
     aboutTitle: "Tentang",
-    aboutDesc: "Seorang kreator yang menjembatani keandalan performa teknis dengan estetika visual yang halus. Saya membangun perangkat lunak yang bekerja cepat dan terlihat memukau.",
-    aboutPhilosophyTitle: "Filosofi Kreatif",
-    aboutPhilosophyDesc: "Saya percaya bahwa desain hebat bukan sekadar bagaimana sesuatu terlihat, melainkan bagaimana ia berfungsi dan dirasakan. Setiap milidetik latensi yang dihemat dan setiap mikro-animasi yang ditambahkan meningkatkan pengalaman digital secara keseluruhan, meninggalkan impresi positif bagi pengguna.",
+    aboutDesc: "VA berpengalaman yang membantu klien lokal dan internasional mengelola operasional bisnis harian secara remote. Teliti, responsif, dan proaktif.",
+    aboutPhilosophyTitle: "Pendekatan Kerja Saya",
+    aboutPhilosophyDesc: "Saya percaya bahwa seorang VA yang baik bukan hanya mengerjakan tugas — tapi memahami prioritas klien dan mengantisipasi kebutuhan sebelum diminta. Saya bekerja dengan standar komunikasi tinggi, selalu on-time, dan terbuka untuk beradaptasi dengan workflow klien.",
     aboutStatsExp: "Tahun Pengalaman",
-    aboutStatsDone: "Proyek Selesai",
+    aboutStatsDone: "Tugas Diselesaikan",
     aboutStatsClients: "Klien Puas",
-    aboutCapabilities: "Kapabilitas Utama",
-    aboutBtnResume: "Unduh Resume & Obrol",
+    aboutCapabilities: "Kemampuan Utama",
+    aboutBtnResume: "Unduh CV & Diskusi",
     aboutTimeline: [
       {
         date: "2024 - Sekarang",
-        title: "Developer Frontend Senior",
-        org: "Vanguard Systems Lab",
-        desc: "Merancang sistem desain glassmorphic mutakhir, mengoptimalkan kinerja aplikasi React, dan memimpin tim pengembang beranggotakan 6 orang untuk lini produk inti."
+        title: "Virtual Assistant Freelance",
+        org: "Klien Internasional (Upwork)",
+        desc: "Mengelola inbox email, jadwal meeting, riset data, dan koordinasi proyek untuk 3–5 klien aktif secara bersamaan menggunakan Notion, Trello, dan Google Workspace."
       },
       {
-        date: "2022 - 2024",
-        title: "Software Engineer Fullstack",
-        org: "PixelPerfect Solutions",
-        desc: "Membangun integrasi awan kustom, layanan mikro RESTful backend, dan antarmuka dasbor interaktif menggunakan Node.js, Express, dan React."
+        date: "2023 - 2024",
+        title: "Admin & Social Media VA",
+        org: "Klien Lokal (Fiverr)",
+        desc: "Membantu UMKM dan personal brand mengelola konten media sosial, membuat caption, scheduling posting, serta membalas pesan dan komentar."
       },
       {
-        date: "2019 - 2022",
-        title: "Ilmu Komputer & Rekayasa Perangkat Lunak",
-        org: "Universitas Nusantara",
-        desc: "Lulus dengan predikat sangat memuaskan. Spesialisasi dalam antarmuka manusia-komputer, alur rendering visual, dan arsitektur perangkat lunak tingkat lanjut."
+        date: "2022 - 2023",
+        title: "Administrasi & Customer Service",
+        org: "Pengalaman Kerja Offline",
+        desc: "Pengalaman kerja di bidang administrasi kantor, pengelolaan data, dan layanan pelanggan — yang menjadi fondasi kuat untuk karier VA remote."
       }
     ],
 
     // Services
-    servicesTag: "Spesialisasi Kunci",
-    servicesTitle: "Apa Yang Saya",
-    servicesTitleBold: "Berikan",
-    servicesDesc: "Menyediakan layanan rekayasa web ujung-ke-ujung (end-to-end) yang menyelaraskan skalabilitas teknis dengan tata letak visual modern.",
+    servicesTag: "Apa Yang Saya Tawarkan",
+    servicesTitle: "Layanan",
+    servicesTitleBold: "Saya",
+    servicesDesc: "Paket layanan VA yang fleksibel, disesuaikan dengan kebutuhan bisnis Anda — dari tugas harian hingga dukungan penuh operasional remote.",
     servicesData: [
       {
-        title: "Rekayasa Frontend",
-        desc: "Merancang Aplikasi Halaman Tunggal (SPA) berkinerja tinggi menggunakan React. Berfokus pada pengelolaan state yang bersih, komponen modular, dan kecepatan muat maksimal."
+        title: "Manajemen Email & Jadwal",
+        desc: "Mengelola inbox email, menyortir prioritas, membalas pesan rutin, dan mengatur jadwal meeting menggunakan Google Calendar atau Calendly. Pastikan tidak ada agenda yang terlewat."
       },
       {
-        title: "Integrasi API Fullstack",
-        desc: "Mengembangkan infrastruktur server yang tangguh, gerbang RESTful/GraphQL yang aman, serta kueri database berlatensi rendah dengan Node.js, Express, SQL, dan NoSQL."
+        title: "Admin & Data Entry",
+        desc: "Input data, pembuatan laporan, pengelolaan spreadsheet, riset online, dan dokumentasi. Rapi, akurat, dan tepat waktu menggunakan Google Sheets atau Microsoft Excel."
       },
       {
-        title: "Keamanan & Autentikasi",
-        desc: "Menerapkan JSON Web Tokens (JWT), tingkat akses berbasis peran, pelindung CSRF, serta enkripsi database untuk melindungi seluruh titik sensitif aplikasi."
+        title: "Social Media Management",
+        desc: "Membuat konten, caption, dan jadwal posting untuk Instagram, Facebook, atau TikTok. Menggunakan Canva untuk desain visual dan Buffer/Hootsuite for scheduling."
       },
       {
-        title: "Optimasi Kinerja (SEO)",
-        desc: "Mengoptimalkan bundel aset, memisahkan bundel kode, menerapkan kompresi gambar modern, dan optimasi SEO guna meraih skor Lighthouse 100/100."
+        title: "Manajemen Proyek & Koordinasi",
+        desc: "Membuat dan mengelola board tugas di Notion atau Trello, follow-up tim, membuat meeting notes, dan memastikan proyek berjalan sesuai timeline."
       }
     ],
 
     // Projects
-    projectsTag: "Galeri Portofolio",
-    projectsTitle: "Proyek",
-    projectsTitleBold: "Pilihan",
-    projectsDesc: "Kumpulan platform siap produksi pilihan, berfokus pada konsistensi visual, responsivitas, dan animasi antarmuka mutakhir.",
-    projectsBtnView: "Lihat Spesifikasi",
-    projectsFilterAll: "Semua Proyek",
-    projectsFilterFrontend: "Frontend",
-    projectsFilterBackend: "Backend",
-    projectsFilterDesign: "Desain UI/UX",
+    projectsTag: "Portofolio Kerja",
+    projectsTitle: "Contoh",
+    projectsTitleBold: "Pekerjaan",
+    projectsDesc: "Contoh tugas nyata dan simulasi yang menggambarkan kemampuan saya sebagai VA — dari manajemen email hingga pengelolaan proyek.",
+    projectsBtnView: "Lihat Detail",
+    projectsFilterAll: "Semua",
+    projectsFilterFrontend: "Admin",
+    projectsFilterBackend: "Riset",
+    projectsFilterDesign: "Social Media",
     projectsData: [
       {
-        title: 'Platform E-Commerce Nova',
-        desc: 'Platform belanja e-commerce super cepat dengan kartu grid glassmorphic dinamis, animasi item yang mulus, dan fitur keranjang belanja lengkap.',
-        longDesc: 'Nova Commerce adalah etalase web canggih yang dirancang untuk memberikan kinerja belanja desktop dan seluler terbaik. Mengintegrasikan tema CSS variabel responsif, wadah mesh gradien HSL yang halus, dan transisi cair untuk menjaga keterlibatan pengguna, mendorong nilai web vitals ke angka sempurna 100.',
-        role: 'Pimpinan Pengembang UI/UX',
-        client: 'NovaRetail Inc.',
-        duration: '4 Bulan (2025)',
-        stack: 'React, Vite, Sistem HSL-CSS, Redux Toolkit',
+        title: "Sistem Inbox Zero untuk Klien E-Commerce",
+        desc: "Mengelola 80+ email masuk per hari, menyortir prioritas, membalas template standar, dan membuat laporan mingguan ringkasan komunikasi klien.",
+        longDesc: "Klien memiliki toko online dengan volume email tinggi dari supplier, pelanggan, dan partner. Saya membangun sistem label, filter otomatis, dan template balasan di Gmail. Hasilnya inbox selalu bersih, response time turun dari 2 hari menjadi 3 jam.",
+        role: "Email Management VA",
+        client: "Toko Online (Klien Upwork)",
+        duration: "3 Bulan",
+        stack: "Gmail, Google Sheets, Notion",
         features: [
-          'Mesin pencarian & penyortiran katalog kustom sub-milidetik',
-          'Checkout bilah sisi glassmorphism dinamis dengan integrasi kanvas fluid',
-          'Sinkronisasi state terpadu untuk kalkulasi harga dan pajak instan',
-          'Mode terang dan gelap responsif yang menyesuaikan pengaturan sistem operasi pengguna'
+          "Setup sistem label dan filter otomatis Gmail",
+          "Pembuatan 15+ template balasan email standar",
+          "Laporan mingguan ringkasan volume dan kategori email",
+          "Response time rata-rata turun 85%"
         ]
       },
       {
-        title: 'Manajemen Tugas Chronos',
-        desc: 'Perencana tugas kolaboratif real-time yang dibangun dengan instans server WebSocket persisten dan kartu modular.',
-        longDesc: 'Chronos menjembatani kesenjangan antara perencanaan proyek dan pelacakan langsung dengan fidelitas tinggi. Beroperasi pada kluster WebSocket yang sangat cepat, mengirimkan pembaruan muatan instan untuk menjaga semua pemangku kepentingan tetap sinkron tanpa perlu memuat ulang halaman secara manual.',
-        role: 'Arsitek Fullstack',
-        client: 'ChronosLabs Inc.',
-        duration: '5 Bulan (2024)',
-        stack: 'React, WebSockets, Node.js, Express, MongoDB',
+        title: "Pengelolaan Kalender Eksekutif",
+        desc: "Mengatur jadwal meeting, panggilan klien, dan deadline proyek untuk seorang founder startup — zero double-booking selama 6 bulan.",
+        longDesc: "Founder kesulitan mengatur jadwal karena meeting dari 3 zona waktu berbeda. Saya mengintegrasikan Google Calendar dengan Calendly, membuat sistem booking otomatis, dan mengirimkan reminder 24 jam sebelum setiap meeting.",
+        role: "Executive VA",
+        client: "Startup Founder (Remote)",
+        duration: "6 Bulan",
+        stack: "Google Calendar, Calendly, Slack, Zoom",
         features: [
-          'Penyiaran data WebSocket real-time dengan pemulihan koneksi otomatis',
-          'Papan kanban seret-dan-lepas kustom menggunakan pembungkus API HTML5 asli',
-          'Izin pengguna granular dan skema otorisasi JSON Web Token yang aman',
-          'Layar metrik interaktif yang menampilkan indikator pencapaian tugas kanvas dinamis'
+          "Integrasi Calendly dengan Google Calendar lintas timezone",
+          "Sistem reminder otomatis via email dan Slack",
+          "Pengelolaan agenda harian dan mingguan",
+          "Zero missed meeting selama 6 bulan penugasan"
         ]
       },
       {
-        title: 'Aplikasi Meditasi Aura',
-        desc: 'Platform kebugaran mental yang memukau, mengutamakan tata letak yang menenangkan, latar belakang mesh HSL yang halus, dan siklus pernapasan interaktif.',
-        longDesc: 'Aura dirancang untuk memaksimalkan ketenangan mental melalui perangkat lunak. Dibangun di atas kerangka kerja tata letak visual ketat yang mengutamakan ruang kosong mutlak, latar belakang gradien hangat kustom, dan sistem bantuan pernapasan melingkar yang sinkron menggunakan pengatur waktu requestAnimationFrame.',
-        role: 'Desainer & Pembuat Prototipe Tunggal',
-        client: 'Aura Health LLC',
-        duration: '3 Bulan (2024)',
-        stack: 'Token Desain Figma, React Hooks, Keyframes CSS',
+        title: "Konten & Jadwal Social Media UMKM",
+        desc: "Membuat 30 konten per bulan, desain visual di Canva, dan mengatur jadwal posting untuk bisnis kuliner lokal — follower naik 40% dalam 3 bulan.",
+        longDesc: "UMKM kuliner tidak punya tim marketing. Saya mengambil alih pengelolaan Instagram dan Facebook, termasuk riset tren, pembuatan caption, desain konten di Canva, dan scheduling via Buffer. Engagement meningkat signifikan karena konsistensi posting.",
+        role: "Social Media VA",
+        client: "UMKM Kuliner, Karawang",
+        duration: "3 Bulan",
+        stack: "Canva, Buffer, Instagram, Facebook",
         features: [
-          'Latar belakang mesh animasi HSL kustom yang cocok dengan pola diurnal (pagi, sore, malam)',
-          'Alat bantu gelembung pernapasan dengan loop transisi audio-visual yang presisi',
-          'Dasbor widget kustom yang menunjukkan tolok ukur kemajuan meditasi pengguna',
-          'Paket ikon kustom yang disimpan sebagai definisi SVG inline React yang bersih'
+          "30 konten/bulan: feed, story, dan reels",
+          "Desain visual konsisten sesuai brand guide",
+          "Riset hashtag dan tren mingguan",
+          "Laporan performa bulanan (reach, engagement, follower growth)"
         ]
       },
       {
-        title: 'Dasbor Analitik Vortex',
-        desc: 'Layar telemetri futuristik dengan grafik bercahaya dinamis dan visualisasi metrik prediksi ML real-time.',
-        longDesc: 'Vortex mengurai aliran data bervolume tinggi untuk menyajikan prediksi pembelajaran mesin yang jelas. Merender grafik visual SVG yang cantik dan sepenuhnya responsif secara asli, mempertahankan kinerja ekstrem tanpa membebani peramban dengan pustaka grafik yang besar.',
-        role: 'Developer Senior',
-        client: 'Vortex Data Science Group',
-        duration: '6 Bulan (2025)',
-        stack: 'React, Algoritma bagan SVG Inline, Integrasi REST API',
+        title: "Setup Workspace & SOP Bisnis Online",
+        desc: "Membantu bisnis online baru membangun sistem operasional dari nol — Notion workspace, SOP tertulis, dan template dokumen siap pakai.",
+        longDesc: "Klien baru memulai bisnis dan butuh sistem yang terorganisir. Saya membangun Notion workspace lengkap dengan database klien, tracker proyek, SOP operasional, dan template email/dokumen. Hasilnya klien bisa onboard karyawan baru 3x lebih cepat.",
+        role: "Operations VA",
+        client: "Bisnis Jasa Digital (Baru Berdiri)",
+        duration: "1 Bulan",
+        stack: "Notion, Google Workspace, Canva, Loom",
         features: [
-          'Penggambaran grafik SVG ringan kustom yang mendukung pembesaran dan titik fokus',
-          'Pengumpulan data berlatensi rendah yang berjalan di dalam Web Workers HTML5 yang dioptimalkan',
-          'Tata letak yang sepenuhnya dapat disesuaikan dengan komponen modular dasbor yang dikelola pengguna',
-          'Vektor cahaya dinamis yang memetakan anomali data dan pergeseran struktural secara instan'
+          "Notion workspace dengan 8 database terintegrasi",
+          "10+ SOP tertulis untuk operasional harian",
+          "Template email, invoice, dan proposal klien",
+          "Video tutorial Loom untuk setiap proses utama"
         ]
       }
     ],
 
     // Certifications
-    certsTag: "Sertifikasi Profesional",
+    certsTag: "Sertifikasi & Kursus",
     certsTitle: "Kredensial",
-    certsTitleBold: "Terverifikasi",
-    certsDesc: "Daftar kompetensi resmi dan spesialisasi teknologi yang dikeluarkan oleh lembaga industri terpercaya.",
-    certsVerifyBtn: "Verifikasi Kredensial",
+    certsTitleBold: "Saya",
+    certsDesc: "Sertifikat resmi dari kursus dan pelatihan yang membuktikan kompetensi saya sebagai Virtual Assistant profesional.",
+    certsVerifyBtn: "Lihat Sertifikat",
 
     // Testimonials
-    testiTag: "Rekomendasi Klien",
-    testiTitle: "Apa Kata",
-    testiTitleBold: "Klien",
-    testiDesc: "Ulasan dari rekan kerja dan klien mengenai kolaborasi rekayasa perangkat lunak dan manajemen proyek.",
+    testiTag: "Kata Klien Saya",
+    testiTitle: "Ulasan &",
+    testiTitleBold: "Testimoni",
+    testiDesc: "Feedback dari klien yang sudah pernah bekerja sama dengan saya.",
 
     // Blog
-    blogTag: "Catatan & Gagasan",
+    blogTag: "Tips & Insight",
     blogTitle: "Artikel",
-    blogTitleBold: "Teknologi",
-    blogDesc: "Berbagi pemikiran tentang performa frontend, optimasi arsitektur sistem, dan inovasi visual.",
-    blogReadTime: "Menit Membaca",
-    blogBtnRead: "Baca Artikel Lengkap",
+    blogTitleBold: "VA",
+    blogDesc: "Berbagi tips produktivitas, cara kerja remote yang efektif, dan tools terbaik untuk Virtual Assistant.",
+    blogReadTime: "Menit Baca",
+    blogBtnRead: "Baca Selengkapnya",
 
     // Contact
-    contactTag: "Mari Berkolaborasi",
+    contactTag: "Siap Bekerja Sama?",
     contactTitle: "Hubungi",
     contactTitleBold: "Saya",
-    contactDesc: "Memiliki konsep proyek yang menarik, lowongan posisi kerja, atau ingin berdiskusi teknologi? Kirim pesan dan mari kita bangun bersama.",
-    contactDetailsTitle: "Detail Kontak",
-    contactDetailsDesc: "Silakan hubungi saya melalui email atau hubungkan dengan saya di berbagai jejaring sosial profesional. Saya biasanya membalas dalam waktu 24 jam.",
+    contactDesc: "Punya tugas yang perlu didelegasikan? Butuh VA untuk membantu bisnis Anda? Kirim pesan dan saya akan balas dalam 2–4 jam.",
+    contactDetailsTitle: "Info Kontak",
+    contactDetailsDesc: "Hubungi saya via email atau WhatsApp. Tersedia Senin–Sabtu, pukul 08.00–21.00 WIB. Siap mulai dalam 1–2 hari kerja.",
     contactFormTitle: "Kirim Pesan",
     contactFormNameLabel: "Nama Lengkap",
     contactFormEmailLabel: "Alamat Email",
-    contactFormSubjectLabel: "Subjek",
-    contactFormMsgLabel: "Detail Pesan",
-    contactFormBtnSend: "Kirim Transmisi",
-    contactFormBtnSending: "Mengirim Transmisi...",
+    contactFormSubjectLabel: "Kebutuhan Anda",
+    contactFormMsgLabel: "Ceritakan tugas atau proyek yang ingin Anda delegasikan",
+    contactFormBtnSend: "Kirim Pesan",
+    contactFormBtnSending: "Mengirim...",
     contactFormSuccessTitle: "Pesan Terkirim!",
-    contactFormSuccessDesc: "Terima kasih! Saya akan segera menghubungi Anda.",
+    contactFormSuccessDesc: "Terima kasih! Saya akan membalas dalam 2–4 jam.",
 
     // Footer
-    footerRights: "Hak Cipta Dilindungi. Warisan Indonesia & Teknologi."
+    footerRights: "Hak Cipta Dilindungi. Virtual Assistant Profesional dari Indonesia."
   },
   en: {
     // Navbar
     navHome: "Home",
     navAbout: "About",
-    navProjects: "Projects",
+    navProjects: "Portfolio",
     navServices: "Services",
     navContact: "Contact",
     
     // Hero
     heroWelcome: "Welcome to my portfolio",
-    heroIntro: "Hi, I am",
-    heroDesc: "Crafting elegant, high-performance, and visually outstanding web applications. Combining clean, robust architecture with premium modern UI/UX interactions.",
-    heroBtnExplore: "Explore Work",
-    heroBtnContact: "Get In Touch",
+    heroIntro: "Hello, I am",
+    heroDesc: "Helping businesses and individuals work smarter remotely. Specializing in admin management, email, scheduling, and daily operations — so you can focus on what matters most.",
+    heroBtnExplore: "View My Services",
+    heroBtnContact: "Contact Me",
     heroRoles: [
-      "Creative Fullstack Developer",
-      "UI/UX Specialist",
-      "Innovative Problem Solver"
+      "Professional Virtual Assistant",
+      "Admin & Email Specialist",
+      "Schedule & Project Manager",
+      "Social Media VA"
     ],
 
     // Tech stack carousel title
-    techTitle: "Tech Specializations",
+    techTitle: "Tools I Master",
 
     // About
-    aboutTag: "A Glance at My Journey",
+    aboutTag: "Get to Know Me",
     aboutTitle: "About",
-    aboutDesc: "A passionate builder bridging the gap between rigorous technical performance and refined visual aesthetics. I create software that runs quickly and looks gorgeous.",
-    aboutPhilosophyTitle: "Creative Philosophy",
-    aboutPhilosophyDesc: "I believe that great design is not just how something looks, but how it works and feels. Every millisecond of latency saved and every micro-animation added improves the overall digital experience, creating a lasting positive impression for users.",
+    aboutDesc: "An experienced VA helping local and international clients manage daily remote business operations. Detail-oriented, responsive, and proactive.",
+    aboutPhilosophyTitle: "My Work Approach",
+    aboutPhilosophyDesc: "I believe a good VA doesn't just do tasks — but understands client priorities and anticipates needs before being asked. I work with high communication standards, always on time, and open to adapting to the client's workflow.",
     aboutStatsExp: "Years Exp.",
-    aboutStatsDone: "Completed Projects",
+    aboutStatsDone: "Tasks Resolved",
     aboutStatsClients: "Happy Clients",
     aboutCapabilities: "Core Capabilities",
-    aboutBtnResume: "Get Resume & Chat",
+    aboutBtnResume: "Download CV & Discuss",
     aboutTimeline: [
       {
         date: "2024 - Present",
-        title: "Senior Frontend Developer",
-        org: "Vanguard Systems Lab",
-        desc: "Architecting cutting-edge glassmorphic design systems, refining React application performance, and spearheading a team of 6 engineers on core product lines."
+        title: "Freelance Virtual Assistant",
+        org: "International Clients (Upwork)",
+        desc: "Managing email inboxes, meeting schedules, data research, and project coordination for 3–5 active clients simultaneously using Notion, Trello, and Google Workspace."
       },
       {
-        date: "2022 - 2024",
-        title: "Fullstack Software Engineer",
-        org: "PixelPerfect Solutions",
-        desc: "Built custom cloud integrations, RESTful backend microservices, and interactive dashboard frontends using Node.js, Express, and React."
+        date: "2023 - 2024",
+        title: "Admin & Social Media VA",
+        org: "Local Clients (Fiverr)",
+        desc: "Helping MSMEs and personal brands manage social media content, creating captions, scheduling posts, and replying to messages and comments."
       },
       {
-        date: "2019 - 2022",
-        title: "Computer Science & Software Engineering",
-        org: "Nusantara University",
-        desc: "Graduated with high honors. Specialized in human-computer interfaces, visual rendering pipelines, and advanced software architectures."
+        date: "2022 - 2023",
+        title: "Administration & Customer Service",
+        org: "Offline Experience",
+        desc: "Office administration, data management, and customer service experience — forming a strong foundation for a remote VA career."
       }
     ],
 
     // Services
-    servicesTag: "Key Specialities",
-    servicesTitle: "What I",
-    servicesTitleBold: "Deliver",
-    servicesDesc: "Providing robust end-to-end web engineering that matches technical scalability with highly refined, visual interface design layouts.",
+    servicesTag: "What I Offer",
+    servicesTitle: "My",
+    servicesTitleBold: "Services",
+    servicesDesc: "Flexible VA services packages customized to your business needs — from daily tasks to full remote operations support.",
     servicesData: [
       {
-        title: "Frontend Engineering",
-        desc: "Architecting high-scale, fully responsive Single Page Applications (SPAs) in React. Focusing on clean state management, modular components, and fast rendering speeds."
+        title: "Email & Calendar Management",
+        desc: "Manage email inboxes, sort priorities, reply to routine messages, and organize meeting schedules using Google Calendar or Calendly. Ensure no agenda is missed."
       },
       {
-        title: "Fullstack API Integrations",
-        desc: "Developing robust server infrastructures, secure RESTful/GraphQL gateways, and low-latency database queries in Node.js, Express, SQL, and NoSQL databases."
+        title: "Admin & Data Entry",
+        desc: "Data input, report generation, spreadsheet management, online research, and documentation. Neat, accurate, and on-time using Google Sheets or Microsoft Excel."
       },
       {
-        title: "Security & Authentication",
-        desc: "Implementing JSON Web Tokens (JWT), role-based access levels, CSRF shielding, security measures, and database encryption models to safeguard all application points."
+        title: "Social Media Management",
+        desc: "Create content, captions, and posting schedules for Instagram, Facebook, or TikTok. Using Canva for visual design and Buffer/Hootsuite for scheduling."
       },
       {
-        title: "Performance Tuning (SEO)",
-        desc: "Optimizing resource bundles, configuring lazy loads, caching architectures, and implementing SEO meta hierarchies to achieve perfect 100/100 Lighthouse benchmark ratings."
+        title: "Project Management & Coordination",
+        desc: "Create and manage task boards in Notion or Trello, follow-up with the team, make meeting notes, and ensure projects run according to timeline."
       }
     ],
 
     // Projects
-    projectsTag: "Showcase portfolio",
-    projectsTitle: "Featured",
-    projectsTitleBold: "Projects",
-    projectsDesc: "A handpicked selection of production-ready platforms, focusing on visual consistency, responsiveness, and state-of-the-art animations.",
-    projectsBtnView: "View Specifications",
-    projectsFilterAll: "All Projects",
-    projectsFilterFrontend: "Frontend",
-    projectsFilterBackend: "Backend",
-    projectsFilterDesign: "UI/UX Design",
+    projectsTag: "Work Portfolio",
+    projectsTitle: "Work",
+    projectsTitleBold: "Examples",
+    projectsDesc: "Real and simulated task examples reflecting my capabilities as a VA — from email management to project coordination.",
+    projectsBtnView: "View Details",
+    projectsFilterAll: "All",
+    projectsFilterFrontend: "Admin",
+    projectsFilterBackend: "Research",
+    projectsFilterDesign: "Social Media",
     projectsData: [
       {
-        title: 'Nova Commerce Platform',
-        desc: 'An ultra-fast e-commerce shopping platform featuring stunning dynamic glassmorphic card grids, fluid item animations, and full basket functionalities.',
-        longDesc: 'Nova Commerce is a state-of-the-art web storefront conceptualized to deliver unmatched desktop and mobile shopping performance. It integrates responsive CSS variable themes, smooth HSL gradient mesh containers, and fluid transitions to keep users highly engaged, pushing web vitals score to a perfect 100.',
-        role: 'Lead UI/UX Developer',
-        client: 'NovaRetail Inc.',
-        duration: '4 Months (2025)',
-        stack: 'React, Vite, HSL-CSS System, Redux Toolkit',
+        title: "Inbox Zero System for E-Commerce Client",
+        desc: "Managing 80+ incoming emails per day, sorting priorities, replying to standard templates, and compiling weekly client communication summary reports.",
+        longDesc: "Client had an online store with high email volume from suppliers, customers, and partners. I built a system of labels, automated filters, and reply templates in Gmail. As a result, the inbox remained clean, and response times fell from 2 days to 3 hours.",
+        role: "Email Management VA",
+        client: "Online Store (Upwork Client)",
+        duration: "3 Months",
+        stack: "Gmail, Google Sheets, Notion",
         features: [
-          'Sub-millisecond custom catalog search & sorting engines',
-          'Dynamic glassmorphism sidebar checkout with fluid canvas integrations',
-          'Unified context-state synchronizer for instant price and tax re-calculations',
-          'Responsive light and dark modes custom tailored to user OS settings'
+          "Setup Gmail label system and automatic filters",
+          "Created 15+ standard email reply templates",
+          "Weekly report summarizing email volume and categories",
+          "Average response time decreased by 85%"
         ]
       },
       {
-        title: 'Chronos Task Management',
-        desc: 'Real-time collaborative task planner built with persistent WebSocket server instances and modular cards.',
-        longDesc: 'Chronos bridges the gap between project planning and high-fidelity live tracking. It operates on a lightning-fast WebSocket cluster, sending instantaneous payload updates to keep all logged-in stakeholders synchronized without requesting manual database refreshes.',
-        role: 'Fullstack Architect',
-        client: 'ChronosLabs Inc.',
-        duration: '5 Months (2024)',
-        stack: 'React, WebSockets, Node.js, Express, MongoDB',
+        title: "Executive Calendar Management",
+        desc: "Arranging meeting schedules, client calls, and project deadlines for a startup founder — zero double-bookings for 6 months.",
+        longDesc: "Founder struggled to manage schedules because of meetings across 3 different time zones. I integrated Google Calendar with Calendly, created an automated booking system, and sent 24-hour reminders before each meeting.",
+        role: "Executive VA",
+        client: "Startup Founder (Remote)",
+        duration: "6 Months",
+        stack: "Google Calendar, Calendly, Slack, Zoom",
         features: [
-          'Real-time WebSocket data broadcast with automatic reconnect fallbacks',
-          'Custom drag-and-drop kanban boards using native HTML5 API wrappers',
-          'Granular user permissions and secure JSON Web Token authorization schemas',
-          'Interactive metrics screen featuring dynamic canvas task accomplishment indicators'
+          "Cross-timezone Calendly and Google Calendar integration",
+          "Automated reminders via email and Slack",
+          "Daily and weekly agenda management",
+          "Zero missed meetings during 6 months of assignment"
         ]
       },
       {
-        title: 'Aura Meditation App',
-        desc: 'A gorgeous mental wellness landing platform prioritizing calming layouts, smooth HSL mesh backdrops, and interactive breathing loops.',
-        longDesc: 'Aura is designed to maximize mental calm through software. Built on a strict visual layout framework prioritizing absolute white space, custom warm gradient mesh backgrounds, and a circular breathing assist system that synchronizes using requestAnimationFrame timers.',
-        role: 'Sole Designer & Prototyper',
-        client: 'Aura Health LLC',
-        duration: '3 Months (2024)',
-        stack: 'Figma Design Tokens, React Hooks, CSS Keyframes',
+        title: "MSME Social Media Content & Scheduling",
+        desc: "Creating 30 content posts per month, designing visuals in Canva, and scheduling posts for a local culinary business — followers increased by 40% in 3 months.",
+        longDesc: "Culinary MSME had no marketing team. I took over Instagram and Facebook management, including trend research, caption creation, content design in Canva, and scheduling via Buffer. Engagement increased significantly due to posting consistency.",
+        role: "Social Media VA",
+        client: "Culinary MSME, Karawang",
+        duration: "3 Months",
+        stack: "Canva, Buffer, Instagram, Facebook",
         features: [
-          'Custom HSL animated mesh background matching diurnal patterns (morning, evening, night)',
-          'Breathing bubble helper with precise audio-visual transition loops',
-          'Highly custom dashboard widgets showing user progress benchmarks',
-          'Bespoke, scalable icon design kit saved as clean react-inline SVG definitions'
+          "30 content posts/month: feeds, stories, and reels",
+          "Consistent visual designs matching brand guides",
+          "Weekly hashtag and trend research",
+          "Monthly performance reports (reach, engagement, follower growth)"
         ]
       },
       {
-        title: 'Vortex Analytics Dashboard',
-        desc: 'Futuristic telemetry screen featuring dynamic glowing graphs and real-time ML prediction metrics visualization.',
-        longDesc: 'Vortex parses high-volume data streams to present clear machine learning predictions. It renders gorgeous, fully responsive SVG visual graphs natively, maintaining extreme performance without loading high-overhead charting libraries.',
-        role: 'Senior Developer',
-        client: 'Vortex Data Science Group',
-        duration: '6 Months (2025)',
-        stack: 'React, Inline SVG charting algorithms, REST integrations',
+        title: "Workspace Setup & Online Business SOPs",
+        desc: "Helping a new online business build operational systems from scratch — Notion workspace, written SOPs, and ready-to-use document templates.",
+        longDesc: "Client was launching a business and needed an organized system. I built a complete Notion workspace containing client databases, project trackers, operational SOPs, and email/document templates. The client was able to onboard new employees 3x faster.",
+        role: "Operations VA",
+        client: "Digital Service Business (Newly Founded)",
+        duration: "1 Month",
+        stack: "Notion, Google Workspace, Canva, Loom",
         features: [
-          'Bespoke lightweight SVG chart rendering supporting zoom and focal points',
-          'Low-latency data pooling running inside optimized HTML5 Web Workers',
-          'Fully customizable layouts with user-managed dashboard modular components',
-          'Dynamic glow vectors mapping data anomalies and structural shifts instantly'
+          "Notion workspace with 8 integrated databases",
+          "10+ written SOPs for daily operations",
+          "Email, invoice, and client proposal templates",
+          "Loom video tutorials for each primary process"
         ]
       }
     ],
 
     // Certifications
-    certsTag: "Professional Credentials",
-    certsTitle: "Verified",
-    certsTitleBold: "Certifications",
-    certsDesc: "Official validations of technical engineering capacities and visual system proficiencies.",
-    certsVerifyBtn: "Verify Credential",
+    certsTag: "Certifications & Courses",
+    certsTitle: "My",
+    certsTitleBold: "Credentials",
+    certsDesc: "Official certificates from courses and training demonstrating my competence as a professional Virtual Assistant.",
+    certsVerifyBtn: "View Certificate",
 
     // Testimonials
-    testiTag: "Client Recommendations",
-    testiTitle: "Testimonials &",
-    testiTitleBold: "Feedback",
-    testiDesc: "Endorsements from engineering peers, managers, and clients detailing successful product collaborations.",
+    testiTag: "Client Endorsements",
+    testiTitle: "Reviews &",
+    testiTitleBold: "Testimonials",
+    testiDesc: "Feedback from clients who have collaborated with me.",
 
     // Blog
-    blogTag: "Thoughts & Notes",
-    blogTitle: "Recent",
+    blogTag: "Tips & Insights",
+    blogTitle: "VA",
     blogTitleBold: "Articles",
-    blogDesc: "Sharing design ideas, systems engineering findings, and deep dives into CSS performance configurations.",
+    blogDesc: "Sharing productivity tips, effective remote work methods, and the best tools for Virtual Assistants.",
     blogReadTime: "Min Read",
-    blogBtnRead: "Read Full Article",
+    blogBtnRead: "Read More",
 
     // Contact
-    contactTag: "Let's Collaborate",
-    contactTitle: "Get In",
-    contactTitleBold: "Touch",
-    contactDesc: "Have a exciting project blueprint, a role opening, or simply want to exchange ideas? Send a message and let's craft something premium together.",
-    contactDetailsTitle: "Contact Details",
-    contactDetailsDesc: "Feel free to reach out via email or connect with me across my professional handles. I usually respond within 24 hours.",
+    contactTag: "Ready to Collaborate?",
+    contactTitle: "Contact",
+    contactTitleBold: "Me",
+    contactDesc: "Have tasks to delegate? Need a VA to support your business? Send a message and I'll reply within 2–4 hours.",
+    contactDetailsTitle: "Contact Info",
+    contactDetailsDesc: "Contact me via email or WhatsApp. Available Monday–Saturday, 08:00–21:00 WIB. Ready to start in 1–2 business days.",
     contactFormTitle: "Send Message",
     contactFormNameLabel: "Full Name",
     contactFormEmailLabel: "Email Address",
-    contactFormSubjectLabel: "Subject",
-    contactFormMsgLabel: "Message Details",
-    contactFormBtnSend: "Submit Form",
-    contactFormBtnSending: "Sending Transmission...",
-    contactFormSuccessTitle: "Message Transmitted!",
-    contactFormSuccessDesc: "Thank you! I will get in touch with you shortly.",
+    contactFormSubjectLabel: "Your Needs",
+    contactFormMsgLabel: "Tell me about the tasks or project you want to delegate",
+    contactFormBtnSend: "Send Message",
+    contactFormBtnSending: "Sending...",
+    contactFormSuccessTitle: "Message Sent!",
+    contactFormSuccessDesc: "Thank you! I will reply within 2–4 hours.",
 
     // Footer
-    footerRights: "All rights reserved. Indonesian Heritage & Technology."
+    footerRights: "All Rights Reserved. Professional Virtual Assistant from Indonesia."
   }
 };
 

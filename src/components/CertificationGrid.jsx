@@ -7,59 +7,61 @@ const CertificationGrid = () => {
   const certifications = [
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF9900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-          <path d="M2 17l10 5 10-5"></path>
-          <path d="M2 12l10 5 10-5"></path>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4285F4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
       ),
-      title: 'AWS Certified Solutions Architect',
-      issuer: 'Amazon Web Services (AWS)',
-      date: '2025',
-      id: 'AWS-ASA-9941',
-      color: '#FF9900'
+      title: 'Google Workspace Certification',
+      issuer: 'Google Career Certificates',
+      date: '2024',
+      id: 'GGL-WS-2024',
+      color: '#4285F4'
     },
     {
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
-          <line x1="12" y1="22" x2="12" y2="15.5"></line>
-          <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
-          <polyline points="2 15.5 12 8.5 22 15.5"></polyline>
-          <line x1="12" y1="2" x2="12" y2="8.5"></line>
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
         </svg>
       ),
-      title: 'Meta Frontend Professional Certificate',
-      issuer: 'Meta / Coursera',
+      title: 'Virtual Assistant Professional',
+      issuer: 'Coursera / Meta',
       date: '2024',
-      id: 'META-FEC-8812',
+      id: 'CVA-PRO-2024',
       color: '#06B6D4'
     },
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11.603 5.402L5.27 10H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2.27l6.333 4.598A.5.5 0 0 0 12.5 18.2V5.8a.5.5 0 0 0-.897-.398z"></path>
+          <path d="M16 8.5c.83 1.17.83 2.83 0 4M19 6c1.67 2.17 1.67 5.83 0 8"></path>
         </svg>
       ),
-      title: 'Advanced React & Redux Architect',
-      issuer: 'TechVanguard Systems',
-      date: '2025',
-      id: 'TVG-ARR-3051',
-      color: '#8B5CF6'
+      title: 'Social Media Marketing',
+      issuer: 'HubSpot Academy',
+      date: '2023',
+      id: 'HBS-SMM-2023',
+      color: '#FF7A59'
     },
     {
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-          <path d="M12 6v6l4 2"></path>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+          <polyline points="9 14 11 16 15 12"></polyline>
         </svg>
       ),
-      title: 'Google UX Design Certificate',
-      issuer: 'Google Career Academy',
-      date: '2023',
-      id: 'GGL-UXD-1149',
-      color: '#EA4335'
+      title: 'Project Management Essentials',
+      issuer: 'Google / Coursera',
+      date: '2024',
+      id: 'GGL-PM-2024',
+      color: '#8B5CF6'
     }
   ];
 

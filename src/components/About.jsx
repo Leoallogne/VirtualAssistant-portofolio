@@ -5,10 +5,10 @@ const About = () => {
   const { t } = useContext(LanguageContext);
 
   const skills = [
-    { name: 'React / Frontend Architecture', level: 95 },
-    { name: 'Node.js / API Development', level: 88 },
-    { name: 'UI/UX & Design Tokens', level: 90 },
-    { name: 'Database Management (SQL/NoSQL)', level: 82 },
+    { name: 'Email & Calendar Management', level: 95 },
+    { name: 'Notion / Trello / Asana', level: 90 },
+    { name: 'Google Workspace', level: 92 },
+    { name: 'Canva & Social Media Tools', level: 85 },
   ];
 
   return (

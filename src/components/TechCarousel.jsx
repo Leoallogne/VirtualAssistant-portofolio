@@ -5,18 +5,18 @@ const TechCarousel = () => {
   const { t } = useContext(LanguageContext);
 
   const technologies = [
-    { name: 'React', color: '#61DAFB' },
-    { name: 'Node.js', color: '#339933' },
-    { name: 'Vite', color: '#646CFF' },
-    { name: 'Express', color: '#ffffff' },
-    { name: 'JavaScript', color: '#F7DF1E' },
-    { name: 'Redux', color: '#764ABC' },
-    { name: 'MongoDB', color: '#47A248' },
-    { name: 'SQL Databases', color: '#4479A1' },
-    { name: 'CSS3', color: '#1572B6' },
-    { name: 'HTML5', color: '#E34F26' },
-    { name: 'Git', color: '#F05032' },
-    { name: 'Figma', color: '#F24E1E' },
+    { name: 'Google Workspace', color: '#4285F4' },
+    { name: 'Notion', color: '#ffffff' },
+    { name: 'Trello', color: '#0052CC' },
+    { name: 'Slack', color: '#4A154B' },
+    { name: 'Canva', color: '#00C4CC' },
+    { name: 'Zoom', color: '#2D8CFF' },
+    { name: 'Calendly', color: '#006BFF' },
+    { name: 'Asana', color: '#F06A6A' },
+    { name: 'Microsoft Office', color: '#D83B01' },
+    { name: 'ChatGPT / AI Tools', color: '#10A37F' },
+    { name: 'Buffer / Hootsuite', color: '#168EEA' },
+    { name: 'Loom', color: '#625DF5' },
   ];
 
   // Double the array for seamless infinite looping scroll
