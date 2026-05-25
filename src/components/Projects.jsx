@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
 import ProjectModal from './ProjectModal';
 
-const Projects = () => {
+const Projects = ({ setActivePage }) => {
   const { t } = useContext(LanguageContext);
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -20,6 +20,7 @@ const Projects = () => {
       category: 'frontend',
       tags: ['React', 'Vite', 'Vanilla CSS', 'Redux'],
       image: '/project_nova.png',
+      pageId: 'project-zero',
       links: {
         live: 'https://github.com',
         repo: 'https://github.com'
@@ -30,6 +31,7 @@ const Projects = () => {
       category: 'backend',
       tags: ['Node.js', 'Express', 'React', 'MongoDB'],
       image: '/project_chronos.png',
+      pageId: 'project-calendar',
       links: {
         live: 'https://github.com',
         repo: 'https://github.com'
@@ -40,6 +42,7 @@ const Projects = () => {
       category: 'design',
       tags: ['UI/UX', 'Figma', 'React', 'CSS Gradients'],
       image: '/project_aura.png',
+      pageId: 'project-social',
       links: {
         live: 'https://github.com',
         repo: 'https://github.com'
@@ -50,6 +53,7 @@ const Projects = () => {
       category: 'frontend',
       tags: ['React', 'SVG Charts', 'API Integration', 'CSS variables'],
       image: '/project_vortex.png',
+      pageId: 'project-notion',
       links: {
         live: 'https://github.com',
         repo: 'https://github.com'
@@ -75,6 +79,11 @@ const Projects = () => {
   const filteredProjects = activeFilter === 'all'
     ? projectsData
     : projectsData.filter(project => project.category === activeFilter);
+
+  const handleLaunchWorkspace = (pageId) => {
+    setActivePage(pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <section id="projects" style={{ background: 'var(--bg-secondary)' }}>
@@ -130,16 +139,34 @@ const Projects = () => {
                 </div>
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-desc">{project.desc}</p>
-                <button 
-                  className="project-btn"
-                  onClick={() => setSelectedProject(project)}
-                >
-                  {t.projectsBtnView}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </button>
+                
+                {/* Visual Action Rows */}
+                <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto', flexWrap: 'wrap' }}>
+                  <button 
+                    className="project-btn"
+                    style={{ fontSize: '0.85rem' }}
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    {t.projectsBtnView}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </button>
+
+                  <button 
+                    className="project-btn"
+                    style={{ fontSize: '0.85rem', color: 'var(--accent-secondary)' }}
+                    onClick={() => handleLaunchWorkspace(project.pageId)}
+                  >
+                    ⚡ Launch Workspace
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </article>
           ))}
@@ -151,6 +178,7 @@ const Projects = () => {
         <ProjectModal 
           project={selectedProject} 
           onClose={() => setSelectedProject(null)} 
+          setActivePage={setActivePage}
         />
       )}
     </section>

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
 
-const ProjectModal = ({ project, onClose }) => {
+const ProjectModal = ({ project, onClose, setActivePage }) => {
   const { language } = useContext(LanguageContext);
 
   // Prevent body scrolling when modal is active
@@ -21,9 +21,9 @@ const ProjectModal = ({ project, onClose }) => {
       client: 'Klien / Konteks',
       duration: 'Durasi',
       stack: 'Stack Utama',
-      overview: 'Ikhtisar Proyek & Arsitektur',
+      overview: 'Ikhtisar Pekerjaan & Simulasi',
       features: 'Pencapaian & Fitur Kunci',
-      btnLive: 'Luncurkan Aplikasi',
+      btnLive: 'Luncurkan Halaman Hasil Kerja',
       btnCode: 'Lihat Kode Sumber'
     },
     en: {
@@ -31,9 +31,9 @@ const ProjectModal = ({ project, onClose }) => {
       client: 'Client / Context',
       duration: 'Duration',
       stack: 'Primary Stack',
-      overview: 'Project Overview & Architecture',
-      features: 'Key Accomplishments & Features',
-      btnLive: 'Launch Live Application',
+      overview: 'Work Overview & Simulation',
+      features: 'Key Accomplishments & Deliverables',
+      btnLive: 'Launch Live Workspace',
       btnCode: 'Browse Source Code'
     }
   }[language] || {
@@ -41,10 +41,16 @@ const ProjectModal = ({ project, onClose }) => {
     client: 'Client / Context',
     duration: 'Duration',
     stack: 'Primary Stack',
-    overview: 'Project Overview & Architecture',
-    features: 'Key Accomplishments & Features',
-    btnLive: 'Launch Live Application',
+    overview: 'Work Overview & Simulation',
+    features: 'Key Accomplishments & Deliverables',
+    btnLive: 'Launch Live Workspace',
     btnCode: 'Browse Source Code'
+  };
+
+  const handleLaunchWorkspace = () => {
+    onClose();
+    setActivePage(project.pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -133,19 +139,16 @@ const ProjectModal = ({ project, onClose }) => {
 
           {/* Action Anchors */}
           <div className="modal-actions">
-            <a 
-              href={project.links.live} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <button 
+              onClick={handleLaunchWorkspace} 
               className="btn btn-primary"
             >
               {labels.btnLive}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
                 <line x1="10" y1="14" x2="21" y2="3"></line>
               </svg>
-            </a>
+            </button>
             <a 
               href={project.links.repo} 
               target="_blank" 

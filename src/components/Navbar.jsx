@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../context/LanguageContext';
 
-const Navbar = ({ theme, toggleTheme }) => {
+const Navbar = ({ theme, toggleTheme, activePage, setActivePage }) => {
   const { language, changeLanguage, t } = useContext(LanguageContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -17,6 +17,8 @@ const Navbar = ({ theme, toggleTheme }) => {
 
   // Track scroll depth to add border/shadow to navbar
   useEffect(() => {
+    if (activePage !== 'home') return;
+
     const handleScroll = () => {
       if (window.scrollY > 40) {
         setScrolled(true);
@@ -41,23 +43,44 @@ const Navbar = ({ theme, toggleTheme }) => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activePage]);
 
   const handleNavClick = (e, id) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+    if (activePage !== 'home') {
+      setActivePage('home');
+      // Delay slightly to let React mount home sections before smooth scrolling
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -67,7 +90,7 @@ const Navbar = ({ theme, toggleTheme }) => {
   };
 
   return (
-    <nav className={`glass-navbar ${scrolled ? 'nav-scrolled' : ''}`}>
+    <nav className={`glass-navbar ${scrolled || activePage !== 'home' ? 'nav-scrolled' : ''}`}>
       <div className="container navbar-inner">
         <a href="#hero" className="logo" onClick={(e) => handleNavClick(e, 'hero')}>
           <span className="text-gradient" style={{ fontSize: '1.8rem', fontWeight: 800 }}>⚡</span>
@@ -80,7 +103,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
+                className={`nav-link ${activePage === 'home' && activeSection === item.id ? 'active' : ''}`}
                 onClick={(e) => handleNavClick(e, item.id)}
               >
                 {item.label}

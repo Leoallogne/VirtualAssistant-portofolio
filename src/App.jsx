@@ -15,9 +15,16 @@ import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
 import CustomCursor from './components/CustomCursor';
 
+// Import experience center sandbox pages
+import InboxZeroPage from './pages/InboxZeroPage';
+import CalendarPage from './pages/CalendarPage';
+import SocialMediaPage from './pages/SocialMediaPage';
+import NotionWorkspacePage from './pages/NotionWorkspacePage';
+
 function AppContent() {
   const [theme, setTheme] = useState('dark');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activePage, setActivePage] = useState('home');
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
@@ -46,11 +53,45 @@ function AppContent() {
     return () => window.removeEventListener('scroll', handleScrollProgress);
   }, []);
 
+  // Reset scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activePage]);
+
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
     document.documentElement.setAttribute('data-theme', nextTheme);
     localStorage.setItem('theme', nextTheme);
+  };
+
+  const renderActivePage = () => {
+    switch (activePage) {
+      case 'project-zero':
+        return <InboxZeroPage setActivePage={setActivePage} />;
+      case 'project-calendar':
+        return <CalendarPage setActivePage={setActivePage} />;
+      case 'project-social':
+        return <SocialMediaPage setActivePage={setActivePage} />;
+      case 'project-notion':
+        return <NotionWorkspacePage setActivePage={setActivePage} />;
+      case 'home':
+      default:
+        return (
+          <>
+            <Hero />
+            <TechCarousel />
+            <About />
+            <Projects setActivePage={setActivePage} />
+            <Services />
+            <CertificationGrid />
+            <TestimonialsSlider />
+            <TechBlog />
+            <Contact />
+            <Footer />
+          </>
+        );
+    }
   };
 
   return (
@@ -69,17 +110,9 @@ function AppContent() {
       <BackgroundCanvas theme={theme} />
 
       {/* Main visual modules mapping */}
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <Hero />
-      <TechCarousel />
-      <About />
-      <Projects />
-      <Services />
-      <CertificationGrid />
-      <TestimonialsSlider />
-      <TechBlog />
-      <Contact />
-      <Footer />
+      <Navbar theme={theme} toggleTheme={toggleTheme} activePage={activePage} setActivePage={setActivePage} />
+      
+      {renderActivePage()}
     </>
   );
 }
