@@ -7,6 +7,9 @@ import TechCarousel from './components/TechCarousel';
 import About from './components/About';
 import Projects from './components/Projects';
 import Services from './components/Services';
+import ROICalculator from './components/ROICalculator';
+import TaskSimulator from './components/TaskSimulator';
+import OnboardingFlow from './components/OnboardingFlow';
 import CertificationGrid from './components/CertificationGrid';
 import TestimonialsSlider from './components/TestimonialsSlider';
 import TechBlog from './components/TechBlog';
@@ -84,6 +87,9 @@ function AppContent() {
             <About />
             <Projects setActivePage={setActivePage} />
             <Services />
+            <ROICalculator />
+            <TaskSimulator />
+            <OnboardingFlow />
             <CertificationGrid />
             <TestimonialsSlider />
             <TechBlog />

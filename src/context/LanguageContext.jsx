@@ -297,7 +297,43 @@ export const translations = {
     notionConsoleIdle: "[Idle] Centang daftar tugas untuk mengirim log simulasi API.",
     notionSheetTitle: "📊 Spreadsheet CRM Milestones & Onboarding",
     notionSheetDesc: "Master CRM klien yang terintegrasi. Centang tugas di Notion untuk memperbarui progress Warung Nusantara secara instan. Klik dua kali sel status pembayaran untuk mengubah.",
-    notionFormula: "Formula aktif: =COUNTIF(E2:E4, \"PAID\")"
+    notionFormula: "Formula aktif: =COUNTIF(E2:E4, \"PAID\")",
+
+    // ROI Calculator Section
+    roiTitle: "Kalkulator ROI & Penghematan Waktu",
+    roiSubtitle: "Simulasikan seberapa banyak waktu operasional yang bisa Anda hemat jika mendelegasikan tugas administratif harian kepada saya.",
+    roiHoursLabel: "Jam Kerja Administratif Terbuang / Minggu",
+    roiRateLabel: "Estimasi Tarif / Waktu Anda Per Jam",
+    roiResultHours: "Jam Kerja Diselamatkan / Bulan",
+    roiResultSavings: "Estimasi Nilai ROI / Bulan",
+    roiResultYearly: "Total Estimasi Penghematan / Tahun",
+    roiCTA: "Klaim Waktu Luang Anda",
+    roiToggleCurrency: "Ubah Mata Uang",
+
+    // Task Simulator Section
+    simTitle: "Live Task Request Simulator",
+    simSubtitle: "Pilih salah satu skenario tugas administratif di bawah dan saksikan bagaimana sistem kerja saya mengeksekusinya secara cepat dan teratur di terminal.",
+    simSelectTask: "Pilih Skenario Tugas VA:",
+    simTerminalTitle: "💻 Virtual Assistant Execution Terminal",
+    simTimeSaved: "Total Waktu Terhemat",
+    simBtnRun: "Jalankan Simulasi Tugas",
+    simBtnRunning: "Sedang Memproses...",
+    simSuccessBadge: "TUGAS SELESAI!",
+    simTaskA: "📅 Jadwal Rapat 5 Klien Lintas Zona Waktu",
+    simTaskB: "📋 LinkedIn Leads Scraping & Draft Email",
+    simTaskC: "🎨 Desain 6 Feed Canva & Meta Scheduling",
+    
+    // Onboarding Flow Section
+    flowTitle: "SOP & Cara Mulai Mendelegasikan Tugas",
+    flowSubtitle: "Alur onboarding yang aman, terstruktur, dan sangat mudah untuk memulai kolaborasi kerja jarak jauh tanpa kebingungan.",
+    flowStep1Title: "01. Discovery & Alignment Call",
+    flowStep1Desc: "Diskusi singkat 15 menit untuk memetakan beban operasional bisnis Anda dan menentukan daftar tugas administratif prioritas yang paling menguras waktu Anda.",
+    flowStep2Title: "02. Serah Terima Akses Aman",
+    flowStep2Desc: "Anda membagikan kredensial login tools penting menggunakan platform pengelola sandi terenkripsi (seperti LastPass atau Bitwarden) sehingga privasi data Anda tetap 100% aman.",
+    flowStep3Title: "03. Setup SOP & Tracking Board",
+    flowStep3Desc: "Saya menyiapkan workspace koordinasi (Notion atau Trello) yang bisa Anda pantau kapan saja, menetapkan kanal Slack khusus komunikasi, dan mendokumentasikan SOP tertulis.",
+    flowStep4Title: "04. Delegasikan & Fokus Skala Bisnis",
+    flowStep4Desc: "Anda resmi mendelegasikan beban tugas rutin harian kepada saya secara berkala, membebaskan waktu Anda sepenuhnya untuk fokus pada pertumbuhan bisnis dan keputusan strategis."
   },
   en: {
     // Navbar
@@ -593,7 +629,43 @@ export const translations = {
     notionConsoleIdle: "[Idle] Toggle checklists to dispatch simulated REST API logs.",
     notionSheetTitle: "📊 Operations CRM & SOP Milestones Sheets",
     notionSheetDesc: "Master Client CRM Sheet detailing operational stages. Toggling tasks in the Notion Operations tracker dynamically updates Warung Nusantara progress. Double-click Payment Status to toggle.",
-    notionFormula: "Formula active: =COUNTIF(E2:E4, \"PAID\")"
+    notionFormula: "Formula active: =COUNTIF(E2:E4, \"PAID\")",
+
+    // ROI Calculator Section
+    roiTitle: "ROI & Time-Saved Calculator",
+    roiSubtitle: "Simulate how many operational hours you can save if you delegate daily administrative tasks to me.",
+    roiHoursLabel: "Administrative Hours Wasted / Week",
+    roiRateLabel: "Estimated Value of Your Time / Hour",
+    roiResultHours: "Hours Saved / Month",
+    roiResultSavings: "Estimated ROI / Month",
+    roiResultYearly: "Total Estimated Savings / Year",
+    roiCTA: "Reclaim Your Time Now",
+    roiToggleCurrency: "Switch Currency",
+
+    // Task Simulator Section
+    simTitle: "Live Task Request Simulator",
+    simSubtitle: "Choose an administrative task scenario below and watch how my operational workflow executes it rapidly and systematically in the terminal.",
+    simSelectTask: "Select VA Task Scenario:",
+    simTerminalTitle: "💻 Virtual Assistant Execution Terminal",
+    simTimeSaved: "Total Time Saved",
+    simBtnRun: "Run Task Simulation",
+    simBtnRunning: "Processing Task...",
+    simSuccessBadge: "TASK COMPLETED!",
+    simTaskA: "📅 Schedule meetings with 5 clients across timezones",
+    simTaskB: "📋 LinkedIn Leads Scraping & Outreach Drafts",
+    simTaskC: "🎨 Design 6 Canva Feeds & Meta Scheduling",
+    
+    // Onboarding Flow Section
+    flowTitle: "SOP & Onboarding Delegation Flow",
+    flowSubtitle: "A highly secure, structured, and simple onboarding process to kickstart our remote work collaboration without any friction.",
+    flowStep1Title: "01. Discovery & Alignment Call",
+    flowStep1Desc: "A quick 15-minute alignment call to map out your operational bottlenecks and isolate the highest-priority, time-consuming tasks.",
+    flowStep2Title: "02. Secure Credentials Setup",
+    flowStep2Desc: "You share essential account credentials using encrypted password management platforms (like LastPass or Bitwarden) ensuring your sensitive data remains 100% secure.",
+    flowStep3Title: "03. SOP Setup & Task Boards",
+    flowStep3Desc: "I build an operations coordination workspace (Notion or Trello) for real-time tracking, setup a dedicated Slack channel, and document clean written SOPs.",
+    flowStep4Title: "04. Delegate & Focus on Scaling",
+    flowStep4Desc: "You begin smoothly delegating routine administrative burdens, fully reclaiming your calendar to focus entirely on strategic growth and high-impact actions."
   }
 };
 
