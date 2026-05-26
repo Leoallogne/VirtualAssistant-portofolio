@@ -14,7 +14,7 @@ const ProjectModal = ({ project, onClose, setActivePage }) => {
 
   if (!project) return null;
 
-  // Simple localized labels mapping
+  // Localized labels mapping
   const labels = {
     id: {
       role: 'Peran',
@@ -51,6 +51,102 @@ const ProjectModal = ({ project, onClose, setActivePage }) => {
     onClose();
     setActivePage(project.pageId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Render mock Google Sheets / Excel tracker preview inside Modal
+  const renderSpreadsheetPreview = () => {
+    const isIndo = language === 'id';
+    
+    const sheetData = {
+      1: {
+        title: '✉️ INDONESIA CULINARY - EMAIL CORRESPONDENCE LEDGER',
+        headers: isIndo 
+          ? ['No', 'Pengirim', 'Kategori', 'Prioritas', 'Status']
+          : ['No', 'Sender', 'Category', 'Priority', 'Status'],
+        rows: [
+          ['1', 'Agung (Supplier)', isIndo ? 'Pemasok' : 'Supplier', 'Medium', 'RESOLVED 🟢'],
+          ['2', 'Sisca (Customer)', isIndo ? 'Pelanggan' : 'Customer', 'High', 'RESOLVED 🟢'],
+          ['3', 'Budi (Partner)', isIndo ? 'Mitra' : 'Partner', 'Low', 'PENDING 🟡']
+        ]
+      },
+      2: {
+        title: '📅 FOUNDER MASTER APPOINTMENT LOG - Q2 2026',
+        headers: isIndo
+          ? ['ID Rapat', 'Nama Klien', 'Waktu Jadwal', 'Zona Waktu', 'Status']
+          : ['Meeting ID', 'Client Name', 'Scheduled Time', 'Timezone', 'Status'],
+        rows: [
+          ['MTG-101', 'Alice Vance', 'Mon, 10:00 AM', 'EST (UTC -5)', 'CONFIRMED 🟢'],
+          ['MTG-102', 'Budi Harjo', 'Tue, 03:00 PM', 'WIB (UTC +7)', 'REMINDED 🔵'],
+          ['MTG-103', 'John Doe', 'Thu, 09:30 AM', 'GMT (UTC +0)', 'CONFIRMED 🟢']
+        ]
+      },
+      3: {
+        title: '📊 CULINARY MSME CONTENT SCHEDULER & METRICS',
+        headers: isIndo
+          ? ['Tanggal Rilis', 'Topik Konten', 'Jenis Niche', 'Est Jangkauan', 'Status']
+          : ['Publish Date', 'Post Topic', 'Niche Type', 'Est Reach', 'Status'],
+        rows: [
+          ['2026-05-26', 'Visual Es Krim', isIndo ? 'Feed Grid' : 'Culinary Grid', '15,000+', 'PUBLISHED 🟢'],
+          ['2026-05-28', 'Tips Kuliner', isIndo ? 'Tips & Trik' : 'Tips & Tricks', '8,500+', 'SCHEDULED 🔵'],
+          ['2026-06-01', 'Promo Merdeka', isIndo ? 'Kupon Promo' : 'Culinary Promo', '25,000+', 'DRAFT 🟡']
+        ]
+      },
+      4: {
+        title: '📂 OPERATIONS CRM - CLIENT ONBOARDING TRACKER',
+        headers: isIndo
+          ? ['Nama Klien', 'Industri Niche', 'Fase SOP Aktif', 'Progress Tugas', 'Pembayaran']
+          : ['Client Name', 'Niche Industry', 'SOP Active Step', 'Task Progress', 'Payment Status'],
+        rows: [
+          ['Warung Nusantara', 'Food & Culinary', 'Day 3-5: Integration', '3/5 Tasks', 'PAID 🟢'],
+          ['Aura Studio', 'Creative Agency', 'Day 1-2: Setup', '1/3 Tasks', 'INVOICED 🟡'],
+          ['Vortex Corp', 'Digital SaaS', 'Day 6-7: Launch', '5/5 Tasks', 'PAID 🟢']
+        ]
+      }
+    }[project.id] || null;
+
+    if (!sheetData) return null;
+
+    return (
+      <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+        <h4 style={{ color: 'var(--text-main)', fontSize: '1.15rem', marginBottom: '0.65rem', fontFamily: 'var(--font-heading)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span>📊</span> {isIndo ? 'Cuplikan Spreadsheet Audit Log' : 'Audit Log Spreadsheet Preview'}
+        </h4>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: 1.5 }}>
+          {isIndo 
+            ? 'Struktur pencatatan ledger administratif yang terintegrasi langsung di dalam Workspace simulator operasional proyek ini:'
+            : 'Structured administrative ledger logging sheet integrated directly inside this project\'s simulator Workspace:'}
+        </p>
+
+        <div className="glass-panel" style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-sm)' }}>
+          {/* Spreadsheet Header Title */}
+          <div style={{ background: 'var(--bg-tertiary)', padding: '0.75rem 1rem', borderBottom: '1px solid var(--glass-border)', fontSize: '0.7rem', fontWeight: 800, fontFamily: 'monospace', color: 'var(--accent-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            {sheetData.title}
+          </div>
+          
+          {/* Spreadsheet Table */}
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontFamily: 'monospace', fontSize: '0.72rem' }}>
+              <thead>
+                <tr style={{ background: 'rgba(var(--glow-rgb), 0.03)', borderBottom: '1px solid var(--glass-border)' }}>
+                  {sheetData.headers.map((h, i) => (
+                    <th key={i} style={{ padding: '0.75rem 1rem', color: 'var(--text-main)', fontWeight: 700, borderRight: '1px solid var(--glass-border)' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {sheetData.rows.map((row, rIdx) => (
+                  <tr key={rIdx} style={{ borderBottom: rIdx === sheetData.rows.length - 1 ? 'none' : '1px solid var(--glass-border)', background: 'transparent' }}>
+                    {row.map((cell, cIdx) => (
+                      <td key={cIdx} style={{ padding: '0.75rem 1rem', color: 'var(--text-muted)', borderRight: '1px solid var(--glass-border)' }}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -126,6 +222,9 @@ const ProjectModal = ({ project, onClose, setActivePage }) => {
               {labels.overview}
             </h4>
             <p style={{ marginBottom: '1.5rem' }}>{project.longDesc}</p>
+
+            {/* Google Sheets Spreadsheet Audit Log mini-preview */}
+            {renderSpreadsheetPreview()}
             
             <h4 style={{ color: 'var(--text-main)', fontSize: '1.25rem', marginBottom: '0.75rem', fontFamily: 'var(--font-heading)' }}>
               {labels.features}

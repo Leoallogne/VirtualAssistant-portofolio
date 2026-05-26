@@ -102,6 +102,7 @@ export const translations = {
         client: "Toko Online (Klien Upwork)",
         duration: "3 Bulan",
         stack: "Gmail, Google Sheets, Notion",
+        kpi: "⚡ -85% Waktu Respons",
         features: [
           "Setup sistem label dan filter otomatis Gmail",
           "Pembuatan 15+ template balasan email standar",
@@ -117,6 +118,7 @@ export const translations = {
         client: "Startup Founder (Remote)",
         duration: "6 Bulan",
         stack: "Google Calendar, Calendly, Slack, Zoom",
+        kpi: "📅 Bebas Tabrakan Rapat",
         features: [
           "Integrasi Calendly dengan Google Calendar lintas timezone",
           "Sistem reminder otomatis via email dan Slack",
@@ -132,6 +134,7 @@ export const translations = {
         client: "UMKM Kuliner, Karawang",
         duration: "3 Bulan",
         stack: "Canva, Buffer, Instagram, Facebook",
+        kpi: "📈 +40% IG Engagement",
         features: [
           "30 konten/bulan: feed, story, dan reels",
           "Desain visual konsisten sesuai brand guide",
@@ -147,6 +150,7 @@ export const translations = {
         client: "Bisnis Jasa Digital (Baru Berdiri)",
         duration: "1 Bulan",
         stack: "Notion, Google Workspace, Canva, Loom",
+        kpi: "📂 3x Onboarding Tim Cepat",
         features: [
           "Notion workspace dengan 8 database terintegrasi",
           "10+ SOP tertulis untuk operasional harian",
@@ -436,6 +440,7 @@ export const translations = {
         client: "Online Store (Upwork Client)",
         duration: "3 Months",
         stack: "Gmail, Google Sheets, Notion",
+        kpi: "⚡ -85% Response Time",
         features: [
           "Setup Gmail label system and automatic filters",
           "Created 15+ standard email reply templates",
@@ -451,6 +456,7 @@ export const translations = {
         client: "Startup Founder (Remote)",
         duration: "6 Months",
         stack: "Google Calendar, Calendly, Slack, Zoom",
+        kpi: "📅 Zero Double-Bookings",
         features: [
           "Cross-timezone Calendly and Google Calendar integration",
           "Automated reminders via email and Slack",
@@ -466,6 +472,7 @@ export const translations = {
         client: "Culinary MSME, Karawang",
         duration: "3 Months",
         stack: "Canva, Buffer, Instagram, Facebook",
+        kpi: "📈 +40% IG Engagement",
         features: [
           "30 content posts/month: feeds, stories, and reels",
           "Consistent visual designs matching brand guides",
@@ -481,6 +488,7 @@ export const translations = {
         client: "Digital Service Business (Newly Founded)",
         duration: "1 Month",
         stack: "Notion, Google Workspace, Canva, Loom",
+        kpi: "📂 3x Faster Onboarding",
         features: [
           "Notion workspace with 8 integrated databases",
           "10+ written SOPs for daily operations",

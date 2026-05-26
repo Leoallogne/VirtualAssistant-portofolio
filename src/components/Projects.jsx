@@ -9,16 +9,16 @@ const Projects = ({ setActivePage }) => {
 
   const filters = [
     { label: t.projectsFilterAll, value: 'all' },
-    { label: t.projectsFilterFrontend, value: 'frontend' },
-    { label: t.projectsFilterBackend, value: 'backend' },
-    { label: t.projectsFilterDesign, value: 'design' },
+    { label: t.projectsFilterFrontend, value: 'admin' },
+    { label: t.projectsFilterBackend, value: 'research' },
+    { label: t.projectsFilterDesign, value: 'social_media' },
   ];
 
   const staticProjects = [
     {
       id: 1,
-      category: 'frontend',
-      tags: ['React', 'Vite', 'Vanilla CSS', 'Redux'],
+      category: 'admin',
+      tags: ['Email Triage', 'Inbox Zero', 'Client Care', 'SOPs'],
       image: '/project_nova.png',
       pageId: 'project-zero',
       links: {
@@ -28,8 +28,8 @@ const Projects = ({ setActivePage }) => {
     },
     {
       id: 2,
-      category: 'backend',
-      tags: ['Node.js', 'Express', 'React', 'MongoDB'],
+      category: 'research',
+      tags: ['Scheduling', 'Calendar Sync', 'CRM Log', 'Spreadsheets'],
       image: '/project_chronos.png',
       pageId: 'project-calendar',
       links: {
@@ -39,8 +39,8 @@ const Projects = ({ setActivePage }) => {
     },
     {
       id: 3,
-      category: 'design',
-      tags: ['UI/UX', 'Figma', 'React', 'CSS Gradients'],
+      category: 'social_media',
+      tags: ['Canva Graphics', 'Meta Suite', 'Buffer Plan', 'Caption Copy'],
       image: '/project_aura.png',
       pageId: 'project-social',
       links: {
@@ -50,8 +50,8 @@ const Projects = ({ setActivePage }) => {
     },
     {
       id: 4,
-      category: 'frontend',
-      tags: ['React', 'SVG Charts', 'API Integration', 'CSS variables'],
+      category: 'admin',
+      tags: ['Notion Setup', 'SOP Builder', 'Agile Kanban', 'Automation'],
       image: '/project_vortex.png',
       pageId: 'project-notion',
       links: {
@@ -67,6 +67,7 @@ const Projects = ({ setActivePage }) => {
     title: t.projectsData[idx].title,
     desc: t.projectsData[idx].desc,
     longDesc: t.projectsData[idx].longDesc,
+    kpi: t.projectsData[idx].kpi,
     meta: {
       role: t.projectsData[idx].role,
       client: t.projectsData[idx].client,
@@ -86,7 +87,7 @@ const Projects = ({ setActivePage }) => {
   };
 
   return (
-    <section id="projects" style={{ background: 'var(--bg-secondary)' }}>
+    <section id="projects" style={{ background: 'var(--bg-secondary)', padding: '6rem 0', position: 'relative' }}>
       {/* Dynamic bubbles inside sections */}
       <div className="ambient-glows">
         <div className="glow-bubble glow-bubble-3"></div>
@@ -123,6 +124,8 @@ const Projects = ({ setActivePage }) => {
         <div className="projects-grid">
           {filteredProjects.map((project) => (
             <article key={project.id} className="glass-panel project-card">
+              
+              {/* Project Image Box with Hover Overlay & KPI Badge */}
               <div className="project-image-box">
                 <img 
                   src={project.image} 
@@ -130,7 +133,23 @@ const Projects = ({ setActivePage }) => {
                   className="project-img"
                   loading="lazy"
                 />
+                
+                {/* Visual KPI Performance Metric Badge */}
+                <span className="project-kpi-badge">
+                  {project.kpi}
+                </span>
+
+                {/* Glass Hover Launch Workspace Trigger Overlay */}
+                <div 
+                  className="project-hover-overlay"
+                  onClick={() => handleLaunchWorkspace(project.pageId)}
+                >
+                  <span className="project-hover-btn">
+                    ⚡ Launch Workspace
+                  </span>
+                </div>
               </div>
+
               <div className="project-body">
                 <div className="project-tags">
                   {project.tags.map((tag, idx) => (
@@ -144,7 +163,7 @@ const Projects = ({ setActivePage }) => {
                 <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto', flexWrap: 'wrap' }}>
                   <button 
                     className="project-btn"
-                    style={{ fontSize: '0.85rem' }}
+                    style={{ fontSize: '0.82rem', fontWeight: 700 }}
                     onClick={() => setSelectedProject(project)}
                   >
                     {t.projectsBtnView}
@@ -157,7 +176,7 @@ const Projects = ({ setActivePage }) => {
 
                   <button 
                     className="project-btn"
-                    style={{ fontSize: '0.85rem', color: 'var(--accent-secondary)' }}
+                    style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--accent-secondary)' }}
                     onClick={() => handleLaunchWorkspace(project.pageId)}
                   >
                     ⚡ Launch Workspace
