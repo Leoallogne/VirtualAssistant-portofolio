@@ -69,69 +69,72 @@ const OnboardingFlow = () => {
           </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="onboarding-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
-          {steps.map((st, idx) => (
-            <div 
-              key={st.num}
-              className="glass-panel onboarding-card"
-              style={{
-                padding: '2.25rem 1.75rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
-                position: 'relative',
-                overflow: 'hidden',
-                height: '100%',
-                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              {/* Massive back neon number background */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  top: '-15px',
-                  right: '-10px',
-                  fontSize: '5.5rem',
-                  fontWeight: 900,
-                  fontFamily: 'var(--font-heading)',
-                  color: 'rgba(var(--glow-rgb), 0.05)',
-                  lineHeight: 1,
-                  userSelect: 'none',
-                  zIndex: 0
-                }}
-              >
-                {st.num}
-              </div>
+        {/* Onboarding Timeline Section */}
+        <div className="onboarding-timeline-container">
+          
+          {/* Vertical Connecting Line */}
+          <div className="onboarding-timeline-line"></div>
 
-              {/* Icon Container */}
+          {steps.map((st, idx) => {
+            const isLeft = idx % 2 === 0;
+            return (
               <div 
-                style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '14px',
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--glass-border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 1
-                }}
+                key={st.num}
+                className={`onboarding-timeline-item ${isLeft ? 'left-aligned' : 'right-aligned'}`}
               >
-                {st.icon}
-              </div>
+                {/* Connector Dot */}
+                <div className="onboarding-timeline-dot"></div>
 
-              {/* Text Area */}
-              <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-main)', margin: 0, lineHeight: 1.4 }}>
-                  {st.title}
-                </h3>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                  {st.desc}
-                </p>
+                {/* Timeline Card */}
+                <div className="glass-panel onboarding-card">
+                  {/* Massive back neon number background */}
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      top: '-15px',
+                      right: '-10px',
+                      fontSize: '5.5rem',
+                      fontWeight: 900,
+                      fontFamily: 'var(--font-heading)',
+                      color: 'rgba(var(--glow-rgb), 0.05)',
+                      lineHeight: 1,
+                      userSelect: 'none',
+                      zIndex: 0
+                    }}
+                  >
+                    {st.num}
+                  </div>
+
+                  {/* Icon Container */}
+                  <div 
+                    style={{
+                      width: '50px',
+                      height: '50px',
+                      borderRadius: '14px',
+                      background: 'var(--bg-tertiary)',
+                      border: '1px solid var(--glass-border)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 1
+                    }}
+                  >
+                    {st.icon}
+                  </div>
+
+                  {/* Text Area */}
+                  <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)', margin: 0, lineHeight: 1.4 }}>
+                      {st.title}
+                    </h3>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                      {st.desc}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
