@@ -62,6 +62,8 @@ const TaskSimulator = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [lastSavedTime, setLastSavedTime] = useState('');
+  const [activeTab, setActiveTab] = useState('terminal'); // 'terminal' or 'dashboard'
+  const [isCustomRun, setIsCustomRun] = useState(false);
   
   const terminalBodyRef = useRef(null);
   const activeScenario = scenarios[activeScenarioIdx];
@@ -169,6 +171,8 @@ const TaskSimulator = () => {
     
     setIsProcessing(true);
     setShowSuccess(false);
+    setActiveTab('terminal'); // Force back to terminal log view to watch output
+    setIsCustomRun(isCustom);
     setLogs([]);
 
     // Decide which logs to run
@@ -195,6 +199,10 @@ const TaskSimulator = () => {
       if (currentStep >= selectedLogs.length) {
         setShowSuccess(true);
         setIsProcessing(false);
+        // Wait 1.1 seconds, then smoothly flip view to visual Live Dashboard
+        setTimeout(() => {
+          setActiveTab('dashboard');
+        }, 1100);
         return;
       }
 
@@ -216,6 +224,210 @@ const TaskSimulator = () => {
 
     // Delay start of execution to let the command prompt load
     setTimeout(processStep, 600);
+  };
+
+  // Render Visual Live Dashboard View Widget
+  const renderDashboardView = () => {
+    const isIndo = language === 'id';
+    
+    // Idle/Waiting system state
+    if (logs.length === 0 && !isProcessing) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
+          <div className="loader-dots" style={{ width: '12px', height: '12px', marginBottom: '1.5rem', background: 'var(--accent-secondary)' }}></div>
+          <h4 style={{ color: 'var(--text-main)', fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+            {isIndo ? 'Menunggu Aktivasi Tugas' : 'Awaiting Task Activation'}
+          </h4>
+          <p style={{ fontSize: '0.8rem', maxWidth: '300px', margin: 0, lineHeight: 1.5 }}>
+            {isIndo 
+              ? 'Silakan jalankan simulasi salah satu skenario untuk memicu visualisasi dashboard.'
+              : 'Please trigger a simulation scenario to populate this interactive operations panel.'}
+          </p>
+        </div>
+      );
+    }
+
+    // Active executing state
+    if (isProcessing) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
+          <span className="spinner-indicator" style={{
+            display: 'inline-block',
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            border: '3px solid rgba(0,210,255,0.1)',
+            borderTopColor: 'var(--accent-secondary)',
+            animation: 'spin 0.8s linear infinite',
+            marginBottom: '1rem'
+          }}></span>
+          <h4 style={{ color: 'var(--text-main)', fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+            {isIndo ? 'Mengeksekusi Alur Kerja Kerja...' : 'Executing Operational Flow...'}
+          </h4>
+          <p style={{ fontSize: '0.8rem', margin: 0 }}>
+            {isIndo ? 'Menganalisis SOP & mencatat data di terminal...' : 'Analyzing SOPs & compiling terminal logs...'}
+          </p>
+        </div>
+      );
+    }
+
+    // Success state - display scenario-specific widget dashboard
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', height: '100%', animation: 'fadeIn 0.5s ease' }}>
+        
+        {/* Dashboard Grid Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.75rem' }}>
+          <span style={{ fontSize: '0.72rem', color: '#ffb86c', fontWeight: 800, fontFamily: 'monospace' }}>
+            🤖 {isIndo ? 'THREAD AGEN OPERASIONAL: AKTIF' : 'OPERATIONAL AGENT WORKSPACE: ACTIVE'}
+          </span>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+            Latency: 24ms | Error: 0.0%
+          </span>
+        </div>
+
+        {/* Matrix boxes */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.25fr', gap: '1rem' }}>
+          {/* Circular Savings Gauge */}
+          <div className="glass-panel" style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+            <div style={{ position: 'relative', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '0.5rem' }}>
+              {/* Mock Circle Progress Track */}
+              <svg width="70" height="70" viewBox="0 0 36 36" style={{ transform: 'rotate(-90deg)' }}>
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="3" />
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="var(--accent-secondary)" strokeDasharray="100, 100" strokeWidth="3" style={{ strokeLinecap: 'round', animation: 'dash 1.5s ease-out' }} />
+              </svg>
+              <span style={{ position: 'absolute', fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-main)', fontFamily: 'monospace' }}>100%</span>
+            </div>
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{isIndo ? 'Status Akurasi' : 'Accuracy Status'}</span>
+            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#57f287' }}>{isIndo ? 'Sesuai SOP ✓' : 'SOP Compliant ✓'}</span>
+          </div>
+
+          {/* Key Metrics block */}
+          <div className="glass-panel" style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', gap: '0.65rem', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.25rem' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{isIndo ? 'Waktu Terhemat:' : 'Time Saved:'}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--accent-secondary)', fontWeight: 800, fontFamily: 'monospace' }}>{lastSavedTime}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.25rem' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{isIndo ? 'Ledger Sync:' : 'Ledger Sync:'}</span>
+              <span style={{ fontSize: '0.75rem', color: '#57f287', fontWeight: 800, fontFamily: 'monospace' }}>SUCCESS 🟢</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{isIndo ? 'Audit Log:' : 'Audit Log:'}</span>
+              <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', fontWeight: 700, fontFamily: 'monospace' }}>UPDATED 📁</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Dynamic Scenario visual output area */}
+        <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+          
+          {/* Case A: Timezone meetings block */}
+          {!isCustomRun && activeScenarioIdx === 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-main)', fontWeight: 700, marginBottom: '0.2rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                📅 {isIndo ? 'Konfirmasi Roster Agenda Founder:' : 'Founder Booking Agenda Confirmed:'}
+              </span>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '0.65rem 0.85rem', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-main)', fontWeight: 700 }}>Alice Vance (Venture Lead)</span>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Subject: Q2 Investment Pitch Outline</span>
+                  </div>
+                  <span className="project-tag" style={{ fontSize: '0.65rem', background: 'rgba(0,210,255,0.05)', color: 'var(--accent-secondary)' }}>10:00 AM EST 🇺🇸</span>
+                </div>
+
+                <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '0.65rem 0.85rem', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-main)', fontWeight: 700 }}>Budi Harjo (Operations Lead)</span>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Subject: Weekly Warehouse Triage SOP</span>
+                  </div>
+                  <span className="project-tag" style={{ fontSize: '0.65rem', background: 'rgba(139,92,246,0.05)', color: 'var(--accent)' }}>03:00 PM WIB 🇮🇩</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Case B: Leads pipeline list */}
+          {!isCustomRun && activeScenarioIdx === 1 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-main)', fontWeight: 700, marginBottom: '0.2rem' }}>
+                📋 {isIndo ? 'Ledger Database Prospek CRM (Scraped):' : 'Scraped Database Leads Pipeline:'}
+              </span>
+              <div style={{ overflowX: 'auto', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '10px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.7rem', fontFamily: 'monospace' }}>
+                  <thead>
+                    <tr style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <th style={{ padding: '0.5rem 0.75rem', color: 'var(--text-main)' }}>Name</th>
+                      <th style={{ padding: '0.5rem 0.75rem', color: 'var(--text-main)' }}>Niche</th>
+                      <th style={{ padding: '0.5rem 0.75rem', color: 'var(--text-main)' }}>Email status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-muted)' }}>Alice Vance</td>
+                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-muted)' }}>Food Culinary</td>
+                      <td style={{ padding: '0.5rem 0.75rem', color: '#57f287' }}>📧 Draft Ready</td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-muted)' }}>Sisca Indah</td>
+                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-muted)' }}>MSME Catering</td>
+                      <td style={{ padding: '0.5rem 0.75rem', color: '#57f287' }}>📧 Draft Ready</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Case C: Instagram feed layout */}
+          {!isCustomRun && activeScenarioIdx === 2 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-main)', fontWeight: 700, marginBottom: '0.2rem' }}>
+                🎨 {isIndo ? 'Feed Grid Instagram (Meta Suite Sync):' : 'Instagram Visual Feed Grid (Meta Suite Sync):'}
+              </span>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+                <div style={{ aspectRatio: '1/1', background: 'linear-gradient(135deg, #1b2845 0%, #274060 100%)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.35rem', textAlign: 'center' }}>
+                  <span style={{ fontSize: '0.62rem', color: '#ffffff', fontWeight: 'bold' }}>Visual Es Krim</span>
+                  <span style={{ fontSize: '0.55rem', color: '#57f287', marginTop: '0.25rem' }}>🟢 Published</span>
+                </div>
+                <div style={{ aspectRatio: '1/1', background: 'linear-gradient(135deg, #1b2845 0%, #274060 100%)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.35rem', textAlign: 'center' }}>
+                  <span style={{ fontSize: '0.62rem', color: '#ffffff', fontWeight: 'bold' }}>Tips Kuliner</span>
+                  <span style={{ fontSize: '0.55rem', color: 'var(--accent-secondary)', marginTop: '0.25rem' }}>🔵 Scheduled</span>
+                </div>
+                <div style={{ aspectRatio: '1/1', background: 'linear-gradient(135deg, #1b2845 0%, #274060 100%)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.35rem', textAlign: 'center' }}>
+                  <span style={{ fontSize: '0.62rem', color: '#ffffff', fontWeight: 'bold' }}>Promo Merdeka</span>
+                  <span style={{ fontSize: '0.55rem', color: '#ffbd2e', marginTop: '0.25rem' }}>🟡 Draft</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Case D: Custom Prompt flow map */}
+          {isCustomRun && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-main)', fontWeight: 700, marginBottom: '0.2rem' }}>
+                🔄 {isIndo ? 'Visualisasi Alur Kerja Kerja Kustom Agent:' : 'Custom Agent Work Orchestrator Path:'}
+              </span>
+              
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '0.75rem 1rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.72rem' }}>
+                  <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>Input:</span>
+                  <span style={{ color: 'var(--text-main)', fontFamily: 'monospace' }}>"{customPrompt}"</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'space-between', fontSize: '0.7rem', marginTop: '0.25rem', fontFamily: 'monospace' }}>
+                  <span style={{ color: '#57f287' }}>Parser ➔ OK 🟢</span>
+                  <span style={{ color: '#57f287' }}>SMTP Sync ➔ OK 🟢</span>
+                  <span style={{ color: '#57f287' }}>Spreadsheet ➔ OK 🟢</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+
+      </div>
+    );
   };
 
   return (
@@ -250,6 +462,7 @@ const TaskSimulator = () => {
                   setActiveScenarioIdx(idx);
                   setLogs([]);
                   setShowSuccess(false);
+                  setActiveTab('terminal');
                 }}
                 style={{
                   padding: '1.25rem 1.5rem',
@@ -364,7 +577,7 @@ const TaskSimulator = () => {
 
           </div>
 
-          {/* Terminal output window */}
+          {/* Terminal / Dashboard Tabbed container */}
           <div 
             className="glass-panel" 
             style={{ 
@@ -375,127 +588,164 @@ const TaskSimulator = () => {
               boxShadow: 'var(--shadow-lg), 0 10px 40px rgba(0,0,0,0.5)',
               display: 'flex',
               flexDirection: 'column',
-              height: '420px'
+              height: '450px'
             }}
           >
-            {/* Terminal Window Header Bar */}
+            {/* Terminal Window Tab Header Bar */}
             <div 
               style={{ 
                 background: '#111625', 
-                padding: '0.85rem 1.25rem', 
+                padding: '0.5rem 1.25rem', 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center',
                 borderBottom: '1px solid rgba(255,255,255,0.03)'
               }}
             >
+              {/* Traffic light close/min/max circles */}
               <div style={{ display: 'flex', gap: '6px' }}>
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ff5f56', display: 'inline-block' }}></span>
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ffbd2e', display: 'inline-block' }}></span>
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#27c93f', display: 'inline-block' }}></span>
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace', fontWeight: 600 }}>
-                {t.simTerminalTitle}
-              </span>
+              
+              {/* Dashboard Navigation Tabs */}
+              <div style={{ display: 'flex', gap: '0.5rem', background: '#0a0d16', padding: '2px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                <button 
+                  onClick={() => setActiveTab('terminal')}
+                  style={{
+                    background: activeTab === 'terminal' ? '#111625' : 'transparent',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '0.35rem 0.75rem',
+                    fontSize: '0.68rem',
+                    fontWeight: 700,
+                    color: activeTab === 'terminal' ? 'var(--accent-secondary)' : 'var(--text-muted)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {t.simTabTerminal}
+                </button>
+                <button 
+                  onClick={() => setActiveTab('dashboard')}
+                  style={{
+                    background: activeTab === 'dashboard' ? '#111625' : 'transparent',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '0.35rem 0.75rem',
+                    fontSize: '0.68rem',
+                    fontWeight: 700,
+                    color: activeTab === 'dashboard' ? 'var(--accent-secondary)' : 'var(--text-muted)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  {t.simTabDashboard}
+                </button>
+              </div>
+
               <div style={{ width: '42px' }}></div>
             </div>
 
-            {/* Terminal Screen Console Body */}
-            <div 
-              ref={terminalBodyRef}
-              className="terminal-body"
-              style={{ 
-                padding: '1.5rem', 
-                flexGrow: 1, 
-                overflowY: 'auto', 
-                fontFamily: 'Consolas, Monaco, monospace', 
-                fontSize: '0.8rem', 
-                color: '#57f287',
-                lineHeight: 1.7,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem'
-              }}
-            >
-              {/* Idle screen state */}
-              {logs.length === 0 && !isProcessing && (
-                <div style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', margin: 'auto' }}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1rem', opacity: 0.3 }}>
-                    <polyline points="4 17 10 11 4 5"></polyline>
-                    <line x1="12" y1="19" x2="20" y2="19"></line>
-                  </svg>
-                  <p style={{ margin: 0, fontSize: '0.85rem' }}>
-                    {language === 'id' 
-                      ? '[Siap] Pilih skenario atau ketik tugas khusus, lalu jalankan.' 
-                      : '[Ready] Choose a scenario or type a custom task, then run.'}
-                  </p>
-                </div>
-              )}
-
-              {/* Displaying logs step by step */}
-              {logs.map((log, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  
-                  {/* Command prompt style formatting */}
-                  {log.status === 'command' ? (
-                    <span style={{ color: '#00d2ff', fontWeight: 700 }}>{log.text}</span>
-                  ) : (
-                    <>
-                      {/* Status symbol indicator */}
-                      {log.status === 'loading' && (
-                        <span className="spinner-indicator" style={{
-                          display: 'inline-block',
-                          width: '12px',
-                          height: '12px',
-                          borderRadius: '50%',
-                          border: '2px solid rgba(87,242,135,0.3)',
-                          borderTopColor: '#57f287',
-                          animation: 'spin 0.6s linear infinite',
-                          marginTop: '4px'
-                        }}></span>
-                      )}
-                      {log.status === 'success' && (
-                        <span style={{ color: '#27c93f', fontWeight: 'bold' }}>✓</span>
-                      )}
-
-                      <span style={{ color: log.status === 'loading' ? 'rgba(255,255,255,0.7)' : '#ffffff' }}>
-                        {log.text}
-                      </span>
-                    </>
-                  )}
-                </div>
-              ))}
-
-              {/* Final Success Panel Banner */}
-              {showSuccess && (
+            {/* Dynamic tabs window render content */}
+            <div style={{ flexGrow: 1, padding: '1.5rem', overflowY: 'auto' }}>
+              
+              {/* TAB 1: Console logs view */}
+              {activeTab === 'terminal' ? (
                 <div 
-                  className="terminal-success"
-                  style={{
-                    background: 'rgba(39,201,63,0.06)',
-                    border: '1px dashed rgba(39,201,63,0.3)',
-                    borderRadius: '12px',
-                    padding: '1.15rem',
-                    marginTop: '0.5rem',
+                  ref={terminalBodyRef}
+                  style={{ 
+                    fontFamily: 'Consolas, Monaco, monospace', 
+                    fontSize: '0.8rem', 
+                    color: '#57f287',
+                    lineHeight: 1.7,
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.5rem',
-                    animation: 'fadeIn 0.4s ease'
+                    gap: '1rem',
+                    height: '100%'
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#27c93f', fontWeight: 'bold', fontSize: '0.85rem' }}>
-                      🟢 {t.simSuccessBadge}
-                    </span>
-                    <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>
-                      {language === 'id' ? 'Proses Otomatis' : 'Automated'}
-                    </span>
-                  </div>
-                  <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0, fontSize: '0.78rem', lineHeight: 1.4 }}>
-                    {language === 'id' 
-                      ? `Semua sub-tugas selesai secara aman. Estimasi waktu operasional yang Anda hemat: ${lastSavedTime}!` 
-                      : `All sub-tasks successfully executed. Total saved operational hours: ${lastSavedTime}!`}
-                  </p>
+                  {/* Idle state */}
+                  {logs.length === 0 && !isProcessing && (
+                    <div style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', margin: 'auto' }}>
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '1rem', opacity: 0.3 }}>
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                      </svg>
+                      <p style={{ margin: 0, fontSize: '0.85rem' }}>
+                        {language === 'id' 
+                          ? '[Siap] Pilih skenario atau ketik tugas khusus, lalu jalankan.' 
+                          : '[Ready] Choose a scenario or type a custom task, then run.'}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Logs mapping */}
+                  {logs.map((log, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                      {log.status === 'command' ? (
+                        <span style={{ color: '#00d2ff', fontWeight: 700 }}>{log.text}</span>
+                      ) : (
+                        <>
+                          {log.status === 'loading' && (
+                            <span className="spinner-indicator" style={{
+                              display: 'inline-block',
+                              width: '12px',
+                              height: '12px',
+                              borderRadius: '50%',
+                              border: '2px solid rgba(87,242,135,0.3)',
+                              borderTopColor: '#57f287',
+                              animation: 'spin 0.6s linear infinite',
+                              marginTop: '4px'
+                            }}></span>
+                          )}
+                          {log.status === 'success' && (
+                            <span style={{ color: '#27c93f', fontWeight: 'bold' }}>✓</span>
+                          )}
+                          <span style={{ color: log.status === 'loading' ? 'rgba(255,255,255,0.7)' : '#ffffff' }}>
+                            {log.text}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* Final success badge */}
+                  {showSuccess && (
+                    <div 
+                      className="terminal-success"
+                      style={{
+                        background: 'rgba(39,201,63,0.06)',
+                        border: '1px dashed rgba(39,201,63,0.3)',
+                        borderRadius: '12px',
+                        padding: '1.15rem',
+                        marginTop: '0.5rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.5rem',
+                        animation: 'fadeIn 0.4s ease'
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: '#27c93f', fontWeight: 'bold', fontSize: '0.85rem' }}>
+                          🟢 {t.simSuccessBadge}
+                        </span>
+                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>
+                          {language === 'id' ? 'Proses Otomatis' : 'Automated'}
+                        </span>
+                      </div>
+                      <p style={{ color: 'rgba(255,255,255,0.85)', margin: 0, fontSize: '0.78rem', lineHeight: 1.4 }}>
+                        {language === 'id' 
+                          ? `Semua sub-tugas selesai secara aman. Estimasi waktu operasional yang Anda hemat: ${lastSavedTime}!` 
+                          : `All sub-tasks successfully executed. Total saved operational hours: ${lastSavedTime}!`}
+                      </p>
+                    </div>
+                  )}
                 </div>
+              ) : (
+                /* TAB 2: Graphical visual dashboard view */
+                renderDashboardView()
               )}
 
             </div>

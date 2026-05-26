@@ -1468,3 +1468,13 @@ footer {
     padding: 2rem 1.5rem;
   }
 }
+
+/* Animated Circular Gauge Chart for Dashboard View */
+@keyframes dash {
+  from {
+    stroke-dasharray: 0, 100;
+  }
+  to {
+    stroke-dasharray: 100, 100;
+  }
+}
