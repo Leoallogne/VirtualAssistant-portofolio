@@ -63,13 +63,13 @@ const TaskSimulator = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [lastSavedTime, setLastSavedTime] = useState('');
   
-  const terminalEndRef = useRef(null);
+  const terminalBodyRef = useRef(null);
   const activeScenario = scenarios[activeScenarioIdx];
 
   // Auto scroll terminal log window
   useEffect(() => {
-    if (terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
     }
   }, [logs]);
 
@@ -402,6 +402,7 @@ const TaskSimulator = () => {
 
             {/* Terminal Screen Console Body */}
             <div 
+              ref={terminalBodyRef}
               className="terminal-body"
               style={{ 
                 padding: '1.5rem', 
@@ -497,7 +498,6 @@ const TaskSimulator = () => {
                 </div>
               )}
 
-              <div ref={terminalEndRef} />
             </div>
 
           </div>
