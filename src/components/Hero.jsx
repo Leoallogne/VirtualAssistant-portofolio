@@ -73,11 +73,11 @@ const Hero = () => {
       <div className="container hero-wrapper">
         <div className="hero-content">
           <span className="section-tag">{t.heroWelcome}</span>
-          
+
           <h1 className="hero-title">
-            {t.heroIntro} <span className="text-gradient">Leo Syafiq</span>
+            {t.heroIntro} <span className="text-gradient">Muhammad Syafiq</span>
           </h1>
-          
+
           <h2 className="hero-subtitle" style={{ minHeight: '40px' }}>
             I am a <span style={{ color: 'var(--accent-secondary)', fontWeight: 600 }}>{text}</span>
             <span className="typewriter-cursor" style={{
@@ -87,13 +87,13 @@ const Hero = () => {
               color: 'var(--accent-secondary)'
             }}>|</span>
           </h2>
-          
+
           <p className="hero-desc">
             {t.heroDesc}
           </p>
-          
+
           <div className="hero-actions">
-            <button 
+            <button
               onClick={() => handleScrollTo('projects')}
               className="btn btn-primary"
             >
@@ -103,7 +103,7 @@ const Hero = () => {
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </button>
-            <button 
+            <button
               onClick={() => handleScrollTo('contact')}
               className="btn btn-secondary"
             >

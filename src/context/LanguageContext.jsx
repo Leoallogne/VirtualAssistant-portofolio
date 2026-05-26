@@ -322,6 +322,8 @@ export const translations = {
     simTaskA: "📅 Jadwal Rapat 5 Klien Lintas Zona Waktu",
     simTaskB: "📋 LinkedIn Leads Scraping & Draft Email",
     simTaskC: "🎨 Desain 6 Feed Canva & Meta Scheduling",
+    simCustomPlaceholder: "Tulis tugas kustom di sini... (contoh: Kirim email invoice ke 5 klien)",
+    simCustomLabel: "Atau ketik tugas kustom Anda sendiri:",
     
     // Onboarding Flow Section
     flowTitle: "SOP & Cara Mulai Mendelegasikan Tugas",
@@ -654,6 +656,8 @@ export const translations = {
     simTaskA: "📅 Schedule meetings with 5 clients across timezones",
     simTaskB: "📋 LinkedIn Leads Scraping & Outreach Drafts",
     simTaskC: "🎨 Design 6 Canva Feeds & Meta Scheduling",
+    simCustomPlaceholder: "Type custom task here... (e.g. Send monthly invoice email to 5 clients)",
+    simCustomLabel: "Or type your own custom task:",
     
     // Onboarding Flow Section
     flowTitle: "SOP & Onboarding Delegation Flow",
