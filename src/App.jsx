@@ -11,7 +11,6 @@ import Projects from './components/Projects';
 import LiveStats from './components/LiveStats';
 import Services from './components/Services';
 import ROICalculator from './components/ROICalculator';
-import CustomPricing from './components/CustomPricing';
 import TaskSimulator from './components/TaskSimulator';
 import OnboardingFlow from './components/OnboardingFlow';
 import CertificationGrid from './components/CertificationGrid';
@@ -96,7 +95,6 @@ function AppContent() {
             <Projects setActivePage={setActivePage} />
             <Services />
             <ROICalculator />
-            <CustomPricing />
             <TaskSimulator />
             <OnboardingFlow />
             <CertificationGrid />
