@@ -5,14 +5,19 @@ import BackgroundCanvas from './components/BackgroundCanvas';
 import Hero from './components/Hero';
 import TechCarousel from './components/TechCarousel';
 import About from './components/About';
+import InteractiveTimezoneMap from './components/InteractiveTimezoneMap';
+import DailyRoutine from './components/DailyRoutine';
 import Projects from './components/Projects';
+import LiveStats from './components/LiveStats';
 import Services from './components/Services';
 import ROICalculator from './components/ROICalculator';
+import CustomPricing from './components/CustomPricing';
 import TaskSimulator from './components/TaskSimulator';
 import OnboardingFlow from './components/OnboardingFlow';
 import CertificationGrid from './components/CertificationGrid';
 import TestimonialsSlider from './components/TestimonialsSlider';
 import TechBlog from './components/TechBlog';
+import ClientQuiz from './components/ClientQuiz';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
@@ -85,14 +90,19 @@ function AppContent() {
             <Hero />
             <TechCarousel />
             <About />
+            <InteractiveTimezoneMap />
+            <DailyRoutine />
+            <LiveStats />
             <Projects setActivePage={setActivePage} />
             <Services />
             <ROICalculator />
+            <CustomPricing />
             <TaskSimulator />
             <OnboardingFlow />
             <CertificationGrid />
             <TestimonialsSlider />
             <TechBlog />
+            <ClientQuiz />
             <Contact />
             <Footer />
           </>
